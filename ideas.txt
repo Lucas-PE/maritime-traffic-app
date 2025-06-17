@@ -1,0 +1,11 @@
+The user create the bounding box selecting it on the map !
+It goes then to the websockets
+OU pas --> Voir si possible d'avoir toute la carte par défault
+
+Pour la database intégrée :
+- écran d'accueil expliquant le principe
+- Start fetching --> Démarre le socket qui écrit dans un JSON
+- Les nouvelles entrée pour un même vessel sont append --> On voit comme ça la trajectoire du vessel (anciennes positions grisée ?)
+- Les callback sont trigger toutes les secondes et fetch le JSON
+- Fonction de TTL (soit pour supprimer les data trop vieilles, soit pour ne garder que 2-3 position par vessel)
+- Bouton pour reset le JSON --> Il doit êrte de toute façon reset pour chaque nouvelle connexion !
