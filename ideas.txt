@@ -9,3 +9,10 @@ Pour la database intégrée :
 - Les callback sont trigger toutes les secondes et fetch le JSON
 - Fonction de TTL (soit pour supprimer les data trop vieilles, soit pour ne garder que 2-3 position par vessel)
 - Bouton pour reset le JSON --> Il doit êrte de toute façon reset pour chaque nouvelle connexion !
+
+- Un autre websocket qui prend les info des vessels à partir des MMSI déjà fetched dans ais_position.json
+
+- Les ship Static data ne sont envoyés que toutes les 3 à 6 minutes, la seule solution donc est d'espérer que la data pour une position arrive à un moment !
+--> Informer l'utilisateur de cela et mettre not available yet quand pas dispo !
+
+- Picto pour chaque type de bateau !

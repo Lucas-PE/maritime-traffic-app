@@ -1,0 +1,101 @@
+TypeCode;Description;Category;SubCategory
+0;Not available (default);Not Used;NA
+1;Reserved for future use;Not Used;NA
+2;Reserved for future use;Not Used;NA
+3;Reserved for future use;Not Used;NA
+4;Reserved for future use;Not Used;NA
+5;Reserved for future use;Not Used;NA
+6;Reserved for future use;Not Used;NA
+7;Reserved for future use;Not Used;NA
+8;Reserved for future use;Not Used;NA
+9;Reserved for future use;Not Used;NA
+10;Reserved for future use;Not Used;NA
+11;Reserved for future use;Not Used;NA
+12;Reserved for future use;Not Used;NA
+13;Reserved for future use;Not Used;NA
+14;Reserved for future use;Not Used;NA
+15;Reserved for future use;Not Used;NA
+16;Reserved for future use;Not Used;NA
+17;Reserved for future use;Not Used;NA
+18;Reserved for future use;Not Used;NA
+19;Reserved for future use;Not Used;NA
+20;Wing in ground (WIG), all ships of this type;WIG; all ships of this type
+21;Wing in ground (WIG), Hazardous category A;WIG; Hazardous category A
+22;Wing in ground (WIG), Hazardous category B;WIG; Hazardous category B
+23;Wing in ground (WIG), Hazardous category C;WIG; Hazardous category C
+24;Wing in ground (WIG), Hazardous category D;WIG; Hazardous category D
+25;Wing in ground (WIG), Reserved for future use;WIG; Reserved for future use
+26;Wing in ground (WIG), Reserved for future use;WIG; Reserved for future use
+27;Wing in ground (WIG), Reserved for future use;WIG; Reserved for future use
+28;Wing in ground (WIG), Reserved for future use;WIG; Reserved for future use
+29;Wing in ground (WIG), Reserved for future use;WIG; Reserved for future use
+30;Fishing;Fishing;NA
+31;Towing;Towing;NA
+32;Towing: length exceeds 200m or breadth exceeds 25m;Towing;length exceeds 200m or breadth exceeds 25m
+33;Dredging or underwater ops;Dredging;NA
+34;Diving ops;Diving;NA
+35;Military ops;Military;NA
+36;Sailing;Sailing;NA
+37;Pleasure Craft;Pleasure;NA
+38;Reserved;Not Used;NA
+39;Reserved;Not Used;NA
+40;High speed craft (HSC), all ships of this type;HSC; all ships of this type
+41;High speed craft (HSC), Hazardous category A;HSC; Hazardous category A
+42;High speed craft (HSC), Hazardous category B;HSC; Hazardous category B
+43;High speed craft (HSC), Hazardous category C;HSC; Hazardous category C
+44;High speed craft (HSC), Hazardous category D;HSC; Hazardous category D
+45;High speed craft (HSC), Reserved for future use;HSC; Reserved for future use
+46;High speed craft (HSC), Reserved for future use;HSC; Reserved for future use
+47;High speed craft (HSC), Reserved for future use;HSC; Reserved for future use
+48;High speed craft (HSC), Reserved for future use;HSC; Reserved for future use
+49;High speed craft (HSC), No additional information;HSC; No additional information
+50;Pilot Vessel;Pilot;NA
+51;Search and Rescue vessel;S&R;NA
+52;Tug;Tug;NA
+53;Port Tender;Port Tender;NA
+54;Anti-pollution equipment;Anti-pollution;NA
+55;Law Enforcement;Law Enforcement;NA
+56;Spare - Local Vessel;Spare;NA
+57;Spare - Local Vessel;Spare;NA
+58;Medical Transport;Medical;NA
+59;Noncombatant ship according to RR Resolution No. 18;Non combatant;NA
+60;Passenger, all ships of this type;Passenger; all ships of this type
+61;Passenger, Hazardous category A;Passenger; Hazardous category A
+62;Passenger, Hazardous category B;Passenger; Hazardous category B
+63;Passenger, Hazardous category C;Passenger; Hazardous category C
+64;Passenger, Hazardous category D;Passenger; Hazardous category D
+65;Passenger, Reserved for future use;Passenger; Reserved for future use
+66;Passenger, Reserved for future use;Passenger; Reserved for future use
+67;Passenger, Reserved for future use;Passenger; Reserved for future use
+68;Passenger, Reserved for future use;Passenger; Reserved for future use
+69;Passenger, No additional information;Passenger; No additional information
+70;Cargo, all ships of this type;Cargo; all ships of this type
+71;Cargo, Hazardous category A;Cargo; Hazardous category A
+72;Cargo, Hazardous category B;Cargo; Hazardous category B
+73;Cargo, Hazardous category C;Cargo; Hazardous category C
+74;Cargo, Hazardous category D;Cargo; Hazardous category D
+75;Cargo, Reserved for future use;Cargo; Reserved for future use
+76;Cargo, Reserved for future use;Cargo; Reserved for future use
+77;Cargo, Reserved for future use;Cargo; Reserved for future use
+78;Cargo, Reserved for future use;Cargo; Reserved for future use
+79;Cargo, No additional information;Cargo; No additional information
+80;Tanker, all ships of this type;Tanker; all ships of this type
+81;Tanker, Hazardous category A;Tanker; Hazardous category A
+82;Tanker, Hazardous category B;Tanker; Hazardous category B
+83;Tanker, Hazardous category C;Tanker; Hazardous category C
+84;Tanker, Hazardous category D;Tanker; Hazardous category D
+85;Tanker, Reserved for future use;Tanker; Reserved for future use
+86;Tanker, Reserved for future use;Tanker; Reserved for future use
+87;Tanker, Reserved for future use;Tanker; Reserved for future use
+88;Tanker, Reserved for future use;Tanker; Reserved for future use
+89;Tanker, No additional information;Tanker; No additional information
+90;Other Type, all ships of this type;Other; all ships of this type
+91;Other Type, Hazardous category A;Other; Hazardous category A
+92;Other Type, Hazardous category B;Other; Hazardous category B
+93;Other Type, Hazardous category C;Other; Hazardous category C
+94;Other Type, Hazardous category D;Other; Hazardous category D
+95;Other Type, Reserved for future use;Other; Reserved for future use
+96;Other Type, Reserved for future use;Other; Reserved for future use
+97;Other Type, Reserved for future use;Other; Reserved for future use
+98;Other Type, Reserved for future use;Other; Reserved for future use
+99;Other Type, no additional information;Other; no additional information
