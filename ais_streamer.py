@@ -5,10 +5,11 @@ import os
 
 stop_flag = False
 uri = "wss://stream.aisstream.io/v0/stream"
-POSITION_JSON_PATH = "data/ais_position.json"
-STATIC_JSON_PATH = "data/ais_static.json"
+POSITION_JSON_PATH = "data/raw/ais_position.json"
+STATIC_JSON_PATH = "data/raw/ais_static.json"
 API_KEY = '124f9a783325c6d6ec7402febf532fca3d6eb34d'
-bbox = [[[47.707669,-5.666748], [48.851501,-3.947388]]]
+bbox_brest = [[[47.707669,-5.666748], [48.851501,-3.947388]]]
+bbox = [[[-54.833413,-174.023438],[51.750944,109.335938]]]
 
 # Clear the JSON files
 def clear_json():

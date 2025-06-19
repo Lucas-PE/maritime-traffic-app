@@ -1,4 +1,4 @@
-The user create the bounding box selecting it on the map !
+The user create the bounding box selecting it on the map ! --> MAX BOX !! Ne pas prendre toute la carte !!!
 It goes then to the websockets
 OU pas --> Voir si possible d'avoir toute la carte par défault
 
@@ -16,3 +16,8 @@ Pour la database intégrée :
 --> Informer l'utilisateur de cela et mettre not available yet quand pas dispo !
 
 - Picto pour chaque type de bateau !
+
+- Every five seconds --> Callback to build the final_df from the raw
+- Faire la JOINTURE Seulement sur les raw NON Enrichies !!!
+
+- Ideallement, il faudrait construire un job qui clean les raw au fur et à mesure
