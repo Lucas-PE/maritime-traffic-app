@@ -21,3 +21,9 @@ Pour la database intégrée :
 - Faire la JOINTURE Seulement sur les raw NON Enrichies !!!
 
 - Ideallement, il faudrait construire un job qui clean les raw au fur et à mesure
+
+- Pour les icones sur la carte = Soit des fleches dans le sens de la direction, soit des icones selon le status de navigation ou le ship type
+
+- Choix de la légende : Ship type ou status de navigation
+
+DASH_LEAFLET SEMBLE INDISPENSABLE

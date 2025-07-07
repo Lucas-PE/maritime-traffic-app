@@ -28,8 +28,8 @@ def append_to_json(data, filename):
 
 async def run_websockets_loop():
     await asyncio.gather(
-        stream_ais_position(bbox),
-        stream_ais_static(bbox),
+        stream_ais_position(bbox_brest),
+        stream_ais_static(bbox_brest),
     )
 
 

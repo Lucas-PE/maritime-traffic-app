@@ -1,2 +1,10 @@
 pandas
 websockets
+plotly
+numpy
+dash
+Flask
+dotenv
+dash_bootstrap_components
+dash-mantine-components
+dash-leaflet

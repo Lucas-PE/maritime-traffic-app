@@ -1,0 +1,488 @@
+[
+  {
+    "timestamp": "2025-07-07 13:12:12.212263069 +0000 UTC",
+    "MMSI": 227592820,
+    "Destination": "",
+    "Dimension": {
+      "A": 7,
+      "B": 28,
+      "C": 4,
+      "D": 5
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 67
+  },
+  {
+    "timestamp": "2025-07-07 13:12:14.25684878 +0000 UTC",
+    "MMSI": 227007050,
+    "Destination": "",
+    "Dimension": {
+      "A": 24,
+      "B": 6,
+      "C": 6,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 0
+  },
+  {
+    "timestamp": "2025-07-07 13:12:14.663374699 +0000 UTC",
+    "MMSI": 227818300,
+    "Destination": "BREST",
+    "Dimension": {
+      "A": 137,
+      "B": 58,
+      "C": 5,
+      "D": 22
+    },
+    "Eta": {
+      "Day": 23,
+      "Hour": 18,
+      "Minute": 0,
+      "Month": 4
+    },
+    "Type": 55
+  },
+  {
+    "timestamp": "2025-07-07 13:12:19.861006023 +0000 UTC",
+    "MMSI": 228263700,
+    "Destination": "GBPLY               ",
+    "Dimension": {
+      "A": 31,
+      "B": 137,
+      "C": 15,
+      "D": 12
+    },
+    "Eta": {
+      "Day": 7,
+      "Hour": 19,
+      "Minute": 10,
+      "Month": 7
+    },
+    "Type": 69
+  },
+  {
+    "timestamp": "2025-07-07 13:12:38.37816354 +0000 UTC",
+    "MMSI": 227999999,
+    "Destination": "",
+    "Dimension": {
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+    },
+    "Eta": {
+      "Day": 7,
+      "Hour": 7,
+      "Minute": 7,
+      "Month": 7
+    },
+    "Type": 35
+  },
+  {
+    "timestamp": "2025-07-07 13:12:46.657180878 +0000 UTC",
+    "MMSI": 227806400,
+    "Destination": " ",
+    "Dimension": {
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 0
+  },
+  {
+    "timestamp": "2025-07-07 13:13:08.553003362 +0000 UTC",
+    "MMSI": 227574030,
+    "Destination": "",
+    "Dimension": {
+      "A": 13,
+      "B": 23,
+      "C": 6,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 60
+  },
+  {
+    "timestamp": "2025-07-07 13:13:10.030437438 +0000 UTC",
+    "MMSI": 228247000,
+    "Destination": "EN PECHE VHF 9      ",
+    "Dimension": {
+      "A": 8,
+      "B": 7,
+      "C": 4,
+      "D": 2
+    },
+    "Eta": {
+      "Day": 2,
+      "Hour": 12,
+      "Minute": 0,
+      "Month": 7
+    },
+    "Type": 30
+  },
+  {
+    "timestamp": "2025-07-07 13:13:10.335505067 +0000 UTC",
+    "MMSI": 205133000,
+    "Destination": "FISHINGGROUNDS",
+    "Dimension": {
+      "A": 28,
+      "B": 10,
+      "C": 6,
+      "D": 2
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 0,
+      "Minute": 0,
+      "Month": 0
+    },
+    "Type": 30
+  },
+  {
+    "timestamp": "2025-07-07 13:13:18.192505647 +0000 UTC",
+    "MMSI": 228207600,
+    "Destination": "FRBES",
+    "Dimension": {
+      "A": 43,
+      "B": 64,
+      "C": 10,
+      "D": 10
+    },
+    "Eta": {
+      "Day": 6,
+      "Hour": 8,
+      "Minute": 45,
+      "Month": 7
+    },
+    "Type": 33
+  },
+  {
+    "timestamp": "2025-07-07 13:13:30.327336614 +0000 UTC",
+    "MMSI": 319185400,
+    "Destination": "BREST",
+    "Dimension": {
+      "A": 44,
+      "B": 9,
+      "C": 5,
+      "D": 5
+    },
+    "Eta": {
+      "Day": 4,
+      "Hour": 17,
+      "Minute": 0,
+      "Month": 7
+    },
+    "Type": 37
+  },
+  {
+    "timestamp": "2025-07-07 13:13:36.860393887 +0000 UTC",
+    "MMSI": 227635210,
+    "Destination": "",
+    "Dimension": {
+      "A": 10,
+      "B": 26,
+      "C": 4,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 60
+  },
+  {
+    "timestamp": "2025-07-07 13:13:48.345382932 +0000 UTC",
+    "MMSI": 227612860,
+    "Destination": "",
+    "Dimension": {
+      "A": 12,
+      "B": 23,
+      "C": 6,
+      "D": 3
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 60
+  },
+  {
+    "timestamp": "2025-07-07 13:13:50.098614199 +0000 UTC",
+    "MMSI": 227580520,
+    "Destination": "",
+    "Dimension": {
+      "A": 10,
+      "B": 20,
+      "C": 4,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 0,
+      "Minute": 0,
+      "Month": 0
+    },
+    "Type": 60
+  },
+  {
+    "timestamp": "2025-07-07 13:13:51.571878511 +0000 UTC",
+    "MMSI": 227574020,
+    "Destination": "",
+    "Dimension": {
+      "A": 13,
+      "B": 21,
+      "C": 5,
+      "D": 5
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 60
+  },
+  {
+    "timestamp": "2025-07-07 13:13:55.940090179 +0000 UTC",
+    "MMSI": 227008710,
+    "Destination": "",
+    "Dimension": {
+      "A": 0,
+      "B": 0,
+      "C": 0,
+      "D": 0
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 0
+  },
+  {
+    "timestamp": "2025-07-07 13:14:21.918650401 +0000 UTC",
+    "MMSI": 227730220,
+    "Destination": "",
+    "Dimension": {
+      "A": 13,
+      "B": 2,
+      "C": 2,
+      "D": 2
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 50
+  },
+  {
+    "timestamp": "2025-07-07 13:14:27.233564958 +0000 UTC",
+    "MMSI": 205316000,
+    "Destination": "ROSCOFF",
+    "Dimension": {
+      "A": 25,
+      "B": 11,
+      "C": 4,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 6,
+      "Hour": 7,
+      "Minute": 30,
+      "Month": 7
+    },
+    "Type": 30
+  },
+  {
+    "timestamp": "2025-07-07 13:14:27.754967156 +0000 UTC",
+    "MMSI": 228828300,
+    "Destination": "SEA TRIALS          ",
+    "Dimension": {
+      "A": 10,
+      "B": 14,
+      "C": 6,
+      "D": 2
+    },
+    "Eta": {
+      "Day": 17,
+      "Hour": 17,
+      "Minute": 0,
+      "Month": 6
+    },
+    "Type": 70
+  },
+  {
+    "timestamp": "2025-07-07 13:14:54.270603544 +0000 UTC",
+    "MMSI": 227008170,
+    "Destination": "BREST               ",
+    "Dimension": {
+      "A": 30,
+      "B": 7,
+      "C": 4,
+      "D": 4
+    },
+    "Eta": {
+      "Day": 7,
+      "Hour": 16,
+      "Minute": 30,
+      "Month": 7
+    },
+    "Type": 70
+  },
+  {
+    "timestamp": "2025-07-07 13:15:19.376329765 +0000 UTC",
+    "MMSI": 227916000,
+    "Destination": "Z0NE DE PECHE       ",
+    "Dimension": {
+      "A": 7,
+      "B": 7,
+      "C": 3,
+      "D": 3
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 30
+  },
+  {
+    "timestamp": "2025-07-07 13:15:25.606341874 +0000 UTC",
+    "MMSI": 227000000,
+    "Destination": " ",
+    "Dimension": {
+      "A": 18,
+      "B": 52,
+      "C": 8,
+      "D": 8
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 35
+  },
+  {
+    "timestamp": "2025-07-07 13:15:44.554691877 +0000 UTC",
+    "MMSI": 228041600,
+    "Destination": "FRBES",
+    "Dimension": {
+      "A": 53,
+      "B": 47,
+      "C": 1,
+      "D": 20
+    },
+    "Eta": {
+      "Day": 4,
+      "Hour": 15,
+      "Minute": 30,
+      "Month": 7
+    },
+    "Type": 90
+  },
+  {
+    "timestamp": "2025-07-07 13:15:53.146231591 +0000 UTC",
+    "MMSI": 226263000,
+    "Destination": "FRENCH NAVY ORDER",
+    "Dimension": {
+      "A": 36,
+      "B": 44,
+      "C": 8,
+      "D": 9
+    },
+    "Eta": {
+      "Day": 21,
+      "Hour": 12,
+      "Minute": 0,
+      "Month": 5
+    },
+    "Type": 31
+  },
+  {
+    "timestamp": "2025-07-07 13:15:56.711620441 +0000 UTC",
+    "MMSI": 246051000,
+    "Destination": "BREST               ",
+    "Dimension": {
+      "A": 141,
+      "B": 13,
+      "C": 15,
+      "D": 8
+    },
+    "Eta": {
+      "Day": 3,
+      "Hour": 18,
+      "Minute": 0,
+      "Month": 7
+    },
+    "Type": 99
+  },
+  {
+    "timestamp": "2025-07-07 13:16:01.028323174 +0000 UTC",
+    "MMSI": 228381900,
+    "Destination": "FRENCH STATE ORDER",
+    "Dimension": {
+      "A": 21,
+      "B": 53,
+      "C": 8,
+      "D": 9
+    },
+    "Eta": {
+      "Day": 0,
+      "Hour": 24,
+      "Minute": 60,
+      "Month": 0
+    },
+    "Type": 52
+  },
+  {
+    "timestamp": "2025-07-07 13:16:11.171175663 +0000 UTC",
+    "MMSI": 228429700,
+    "Destination": "BREST               ",
+    "Dimension": {
+      "A": 12,
+      "B": 12,
+      "C": 4,
+      "D": 5
+    },
+    "Eta": {
+      "Day": 5,
+      "Hour": 20,
+      "Minute": 30,
+      "Month": 7
+    },
+    "Type": 52
+  }
+]
