@@ -6,11 +6,3 @@
     right: 0;
     left: 0;
 }
-
-.initial-modal{
-    z-index: 1000 !important
-}
-
-.mt-3{
-    background-color: green
-}

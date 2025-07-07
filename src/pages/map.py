@@ -1,5 +1,5 @@
 import dash
-from dash import html
+from dash import html, dcc
 import dash_leaflet as dl
 import dash_leaflet.express as dlx
 import dash_bootstrap_components as dbc
@@ -10,6 +10,9 @@ dash.register_page(__name__, path='/map', name = "MAP")
 
 def layout():
     return html.Div([
+        
+        dcc.Store('dummy-output'),
+        
         dl.Map(
             [
                 dl.TileLayer(id="basemap"),
@@ -61,9 +64,11 @@ def layout():
                     dbc.Button("Redraw", id="btn-redraw", color="danger")
                     ])
                 ],
-            id="coords-modal",
+            id="confirmation-modal",
             is_open=False,
             backdrop="static",
             keyboard=False,
+            centered=True,
+            class_name='confirmation-modal'
             )
         ])
