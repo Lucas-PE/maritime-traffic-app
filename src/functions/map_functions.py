@@ -1,5 +1,6 @@
 from dash import Output, Input, callback, html, exceptions, callback_context, no_update, clientside_callback
 from components.tile_layers import tile_layers
+from functions.utils import polygon_to_bounding_box
 
 # Change map background on dropdown change
 @callback(
@@ -10,28 +11,23 @@ def change_basemap(layer_name):
     return tile_layers[layer_name]
 
 
-# Close initial modal on select
-@callback(
-    Output("initial-modal", "is_open"),
-    Input("btn-select", "n_clicks"),
-    prevent_initial_call=True,
-)
-def close_initial_modal(_):
-    return False
-
+# Close initial modal on select + select DRAW RECTANGLE
 clientside_callback(
     """
     function(n_clicks) {
-        if (n_clicks) {
-            var rectBtn = document.querySelector('.leaflet-draw-draw-rectangle');
-            if (rectBtn) {
-                rectBtn.click();
-            }
+        if (!n_clicks) {
+            return [window.dash_clientside.no_update, ""];
         }
-        return "";
+
+        var rectBtn = document.querySelector('.leaflet-draw-draw-rectangle');
+        if (rectBtn) {
+            rectBtn.click();
+        }
+
+        return [false, ""];  // close modal and dummy output
     }
     """,
-    Output("dummy-output", "data"),  # dummy output, not used
+    [Output("initial-modal", "is_open"), Output("dummy-output", "data")],
     Input("btn-select", "n_clicks"),
 )
 
@@ -47,7 +43,9 @@ def display_rectangle_coords(geojson):
     if not geojson or not geojson.get("features"):
         raise exceptions.PreventUpdate
     coords = geojson["features"][-1]["geometry"]["coordinates"]
-    return True, html.Pre(str(coords))
+    print(coords)
+    bbox = polygon_to_bounding_box(coords)
+    return True, html.Pre(str(bbox))
 
 
 # Handle "OK" and "Redraw" buttons on coords modal

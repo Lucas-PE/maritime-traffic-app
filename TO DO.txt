@@ -1,0 +1,3 @@
+- Once ok selected, the app change to the map zoomed with the coordinates selected
+- Ideally, there is a rectangle materializing the selection
+- It triggers the socket
