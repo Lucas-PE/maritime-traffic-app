@@ -15,7 +15,8 @@ from functions.utils import (
     polygon_to_bounding_box
 )
 import dash_leaflet as dl
-
+import asyncio
+import threading
 
   
 # 1. INITIAL POPUP
@@ -107,6 +108,11 @@ def clear_all_shapes(n, bbox):
     prevent_initial_call=True
 )
 def update_map(bbox):
+    from functions.ais_streamer import (clear_json,
+                                        stream_ais_position,
+                                        stream_ais_static,
+                                        stop_event
+                                        )
     if bbox == None:
         raise exceptions.PreventUpdate
     
@@ -147,9 +153,38 @@ def update_map(bbox):
                 }
             }
         
+        # WEBSOCKET PROCESS :
+        POSITION_JSON_PATH = "src/data/raw/ais_position.json"
+        STATIC_JSON_PATH = "src/data/raw/ais_static.json"
+        
+        async def run_websockets_loop():
+            await asyncio.gather(
+                stream_ais_position(bbox=bbox, position_json_path=POSITION_JSON_PATH),
+                stream_ais_static(bbox=bbox, static_json_path=STATIC_JSON_PATH)
+                )
+            
+        def run_loop():
+            asyncio.run(run_websockets_loop())
+        
+        try:
+        # 1 : clear JSON
+            clear_json(STATIC_JSON_PATH, POSITION_JSON_PATH)
+            print("WebSocket thread started. Collecting data...")
+        
+        # 2. Start the WebSocket listener in background thread
+            stop_event.clear()
+            t = threading.Thread(target=run_loop, daemon=True)
+            t.start()
+        
+    
+        except KeyboardInterrupt:
+            print("Interrupted. Shutting down.")
+        
         return (
             draw_config,
             edit_config,
             viewport, 
             [rectangle]
             )
+
+# UPDATE THE SHIP LAYER EVERY 2 SECONDS

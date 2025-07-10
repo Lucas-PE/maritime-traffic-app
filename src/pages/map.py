@@ -16,10 +16,14 @@ dash.register_page(__name__, path='/map', name = "MAP")
 def layout():
     return html.Div([
         
+        html.Div(id="dummy-exit-signal", style={"display": "none"}),
+        
         dcc.Store('dummy-initial'),
         dcc.Store("confirmed-bbox", data=None, storage_type='memory'),
         dcc.Store("last-drawn-bbox", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
+        dcc.Store(id="shutdown-signal", storage_type="session"),
+        dcc.Interval(id="interval-shutdown", interval=1000, n_intervals=0),
         
         # Base map
         base_map(),

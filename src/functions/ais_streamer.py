@@ -2,20 +2,26 @@ import json
 import asyncio
 import websockets
 import os
+import threading
 
-stop_flag = False
+stop_event = threading.Event()
 uri = "wss://stream.aisstream.io/v0/stream"
-POSITION_JSON_PATH = "data/raw/ais_position.json"
-STATIC_JSON_PATH = "data/raw/ais_static.json"
 API_KEY = '124f9a783325c6d6ec7402febf532fca3d6eb34d'
-bbox_brest = [[[47.707669,-5.666748], [48.851501,-3.947388]]]
-bbox = [[[-54.833413,-174.023438],[51.750944,109.335938]]]
+POSITION_JSON_PATH = "src/data/raw/ais_position.json"
+STATIC_JSON_PATH = "src/data/raw/ais_static.json"
+
+# Stop websocket
+def stop_websockets():
+    stop_event.set()
+    clear_json(POSITION_JSON_PATH, STATIC_JSON_PATH)
+    print("🛑 WebSocket loop stop signal sent. JSON cleared")
 
 # Clear the JSON files
-def clear_json():
-    for json_path in [POSITION_JSON_PATH, STATIC_JSON_PATH]:
+def clear_json(static_json_path, position_json_path):
+    for json_path in [static_json_path, position_json_path]:
         with open(json_path, "w") as f:
             json.dump([], f)
+
 
 # Append websocket data to the JSON
 def append_to_json(data, filename):
@@ -26,16 +32,8 @@ def append_to_json(data, filename):
         json.dump(existing, f, indent=2)
 
 
-async def run_websockets_loop():
-    await asyncio.gather(
-        stream_ais_position(bbox_brest),
-        stream_ais_static(bbox_brest),
-    )
-
-
 # WEBSOCKET FOR STATIC DATA --> Trigger for each new MMSI position   
-async def stream_ais_static(bbox):
-    global stop_flag
+async def stream_ais_static(bbox, static_json_path):
     subscribe_message = {
         "APIKey": API_KEY,
         "BoundingBoxes": bbox,
@@ -46,7 +44,7 @@ async def stream_ais_static(bbox):
         async with websockets.connect(uri) as websocket:
             # Send position message
             await websocket.send(json.dumps(subscribe_message))
-            while not stop_flag:
+            while not stop_event.is_set():
                 # Retreive Data
                 try:
                     message_json = await asyncio.wait_for(websocket.recv(), timeout = 10)
@@ -62,7 +60,7 @@ async def stream_ais_static(bbox):
                             "Eta": data["Eta"],
                             "Type": data["Type"],
                         }
-                        append_to_json(data, STATIC_JSON_PATH)
+                        append_to_json(data, static_json_path)
                         
                 except asyncio.TimeoutError:
                     continue
@@ -71,8 +69,7 @@ async def stream_ais_static(bbox):
 
 
 # ASYNC WEBSOCKET FOR POSITION DATA
-async def stream_ais_position(bbox):
-    global stop_flag
+async def stream_ais_position(bbox, position_json_path):
     subscribe_message = {
         "APIKey": API_KEY,
         "BoundingBoxes": bbox,
@@ -83,7 +80,7 @@ async def stream_ais_position(bbox):
         async with websockets.connect(uri) as websocket:
             # Send position message
             await websocket.send(json.dumps(subscribe_message))
-            while not stop_flag:
+            while not stop_event.is_set():
                 # Retreive Data
                 try:
                     message_json = await asyncio.wait_for(websocket.recv(), timeout=5)
@@ -104,7 +101,7 @@ async def stream_ais_position(bbox):
                             "Spare": data["Spare"],
                             "UserID": data["UserID"]
                         }
-                        append_to_json(data, POSITION_JSON_PATH)
+                        append_to_json(data, position_json_path)
                         
                 except asyncio.TimeoutError:
                     continue
