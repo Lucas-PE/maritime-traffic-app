@@ -3,6 +3,7 @@ import asyncio
 import websockets
 import os
 import threading
+import time
 
 stop_event = threading.Event()
 uri = "wss://stream.aisstream.io/v0/stream"
@@ -13,6 +14,7 @@ STATIC_JSON_PATH = "src/data/raw/ais_static.json"
 # Stop websocket
 def stop_websockets():
     stop_event.set()
+    time.sleep(1)
     clear_json(POSITION_JSON_PATH, STATIC_JSON_PATH)
     print("🛑 WebSocket loop stop signal sent. JSON cleared")
 

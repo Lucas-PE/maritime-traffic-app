@@ -22,8 +22,13 @@ def layout():
         dcc.Store("confirmed-bbox", data=None, storage_type='memory'),
         dcc.Store("last-drawn-bbox", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
-        dcc.Store(id="shutdown-signal", storage_type="session"),
-        dcc.Interval(id="interval-shutdown", interval=1000, n_intervals=0),
+        
+        # Build the ships layer every 2 seconds
+        dcc.Interval(id="ship-layer-interval", 
+                     interval=2000, 
+                     n_intervals=0, 
+                     disabled=True
+                     ),
         
         # Base map
         base_map(),

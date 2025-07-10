@@ -17,7 +17,8 @@ def base_map():
                     edit={"edit": False, "remove": True}
                     ),
                 ]),
-            dl.LayerGroup(id="selected-rectangle-layer")
+            dl.LayerGroup(id="selected-rectangle-layer"),
+            dl.LayerGroup(id="ship-layer")
             ],
         id="map",
         className="base-map",
