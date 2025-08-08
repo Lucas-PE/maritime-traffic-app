@@ -101,7 +101,8 @@ async def stream_ais_position(bbox, position_json_path):
                             "RateOfTurn": data["RateOfTurn"],
                             "SOG": data["Sog"],
                             "Spare": data["Spare"],
-                            "UserID": data["UserID"]
+                            "UserID": data["UserID"],
+                            "Heading": data["TrueHeading"]
                         }
                         append_to_json(data, position_json_path)
                         

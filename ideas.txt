@@ -25,5 +25,3 @@ Pour la database intégrée :
 - Pour les icones sur la carte = Soit des fleches dans le sens de la direction, soit des icones selon le status de navigation ou le ship type
 
 - Choix de la légende : Ship type ou status de navigation
-
-DASH_LEAFLET SEMBLE INDISPENSABLE

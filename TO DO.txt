@@ -1,14 +1,14 @@
 - Penser aux variables d'environnement pour le déploiement
 - Auto clean_up du ais_position toutes les x minutes
 
-- Replace nan by not yet available
-
-- Idéalement les vieilles positions d'un bateau sont en transparence !
-
 - Rotate the image in the vessel direction
 
 - En prenant une trop grosse zone --> On arrive vite au dessus des 2 secondes ! Interdire une trop grosse zone au début
 
 - Do not forget all attributions
 
-- Prendre une meilleure résolution de png + Agrandir un peu !
+- Conversion vitesse en km/h ?
+
+- DYNAMIC LEGEND !
+
+- Tous les PNG ne s'affichent pas encore --> Reste sur le default icon (mais bien coloré ?) : A creuser pourquoi !!!

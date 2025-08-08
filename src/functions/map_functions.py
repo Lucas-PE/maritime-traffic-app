@@ -22,8 +22,8 @@ import pandas as pd
 import time
 import os
 
-ASSET_ICON_DIR = "src/assets/vessels_png"
-DEFAULT_ICON = None
+ASSET_ICON_DIR = "src/assets/colored_vessels_png"
+DEFAULT_ICON = "src/assets/colored_vessels_png/Unknown_Not defined_(default).png"
   
 # 1. INITIAL POPUP
 # Change map background on dropdown change
@@ -209,7 +209,7 @@ def update_ship_layer(n_intervals):
     df_position = pd.read_json("src/data/raw/ais_position.json")
     if df_position.empty:
         df_position = pd.DataFrame(columns=['timestamp', 'MMSI', 'ShipName', 'lat', 'lon', 'COG',
-                                            'NavigationalStatus', 'RateOfTurn', 'SOG', 'Spare', 'UserID'])
+                                            'NavigationalStatus', 'RateOfTurn', 'SOG', 'Spare', 'UserID', "Heading"])
         
     df_static = pd.read_json("src/data/raw/ais_static.json")
     if df_static.empty:
@@ -235,6 +235,7 @@ def update_ship_layer(n_intervals):
 
     # final_df
     final_df = pd.merge(df_position_final, df_static_latest, on='MMSI', how='left', suffixes = ('_position', '_static'))
+    final_df = final_df.fillna('Unknown')
     
     # 3. Build markers & lines
     
@@ -254,39 +255,66 @@ def update_ship_layer(n_intervals):
                 dl.Tooltip(f"{key[1]} (MMSI: {key[0]}) Track")
             ]
         ))
+        
+        # --- IMPORTANT --> ONLY DISPLAY LATEST VESSEL POSITION ---
+        latest_row = group_sorted.iloc[-1]
+        
+        heading = latest_row.get("Heading", 0)
+        # Mirror & adjust heading
+        adjusted_heading = (heading - 90) % 360
+
+        if 90 < adjusted_heading < 270:
+            flip = "scaleX(-1)"
+            rotated_heading = (180 - adjusted_heading) % 360
+        else:
+            flip = ""
+            rotated_heading = adjusted_heading
 
         # Create marker with popup
-        for _, row in group_sorted.iterrows():
-            # Get the png
-            category = str(row.get("Category", "") or "").replace(" ", "_")
-            status = str(row.get("Status Description", "") or "").replace(" ", "_")
-            icon_filename = f"{category}_{status}.png"
-            icon_path = os.path.join(ASSET_ICON_DIR, icon_filename)
+        # Get the png
+        category = str(latest_row.get("Category", "") or "").replace(" ", "_")
+        status = str(latest_row.get("Status Description", "") or "").replace(" ", "_")
+        icon_filename = f"{category}_{status}.png"
+        icon_path = os.path.join(ASSET_ICON_DIR, icon_filename)
 
-            if os.path.exists(icon_path):
-                icon_url = get_asset_url(f"vessels_png/{icon_filename}")
-                icon = {
-                    "iconUrl": icon_url,
-                    "iconSize": [16, 16],  # Adjust as needed
-                    "iconAnchor": [16, 16]
-                }
-            else:
-                icon = DEFAULT_ICON
+        if os.path.exists(icon_path):
+            icon_url = get_asset_url(f"colored_vessels_png/{icon_filename}")
+        else:
+            icon_url = get_asset_url(f"colored_vessels_png/Unknown_Not defined_(default).png")
+        
+        icon_html = f"""
+            <div style="width: 21px; height: 21px; display: flex; align-items: center; justify-content: center;">
+                <img src="{icon_url}" 
+                    style="transform: {flip} rotate({rotated_heading}deg);
+                        transform-origin: center;
+                        width: 21px; height: 21px;">
+            </div>
+        """
+        
+        icon = dict(
+            html=icon_html,
+            className="",
+            iconSize=[21, 21],
+            iconAnchor=[12, 12]
+            )
             
-            tooltip_content = html.Div([
-                html.B(f"{row['MMSI']} - {row['ShipName']}"), html.Br(),
-                f"Category: {row['Category']}", html.Br(),
-                f"Status: {row['Status Description']}", html.Br(),
-                f"Destination: {row['Destination']}", html.Br(),
-                f"Position at: {row['timestamp_position']}"
+        tooltip_content = html.Div([
+            html.B(f"{latest_row['MMSI']} - {latest_row['ShipName']}"), html.Br(),
+            f"Category: {latest_row['Category']}", html.Br(),
+            f"Status: {latest_row['Status Description']}", html.Br(),
+            f"Destination: {latest_row['Destination']}", html.Br(),
+            f"Position at: {latest_row['timestamp_position']}"
             ])
-            markers.append(dl.Marker(
-                position=(row['lat'], row['lon']),
-                icon=icon,
+
+        markers.append(
+            dl.DivMarker(
+                id=f"marker-{latest_row['MMSI']}",
+                position=(latest_row['lat'], latest_row['lon']),
+                iconOptions=icon,
                 children=[
                     dl.Tooltip(tooltip_content)
-                ]
-            ))
+                    ]
+                ))
     
     print("--- %s seconds ---" % (time.time() - start_time))
     
