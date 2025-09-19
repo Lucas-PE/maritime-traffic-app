@@ -276,11 +276,15 @@ def update_ship_layer(n_intervals):
         status = str(latest_row.get("Status Description", "") or "").replace(" ", "_")
         icon_filename = f"{category}_{status}.png"
         icon_path = os.path.join(ASSET_ICON_DIR, icon_filename)
+        
+        print(icon_path)
 
         if os.path.exists(icon_path):
             icon_url = get_asset_url(f"colored_vessels_png/{icon_filename}")
         else:
-            icon_url = get_asset_url(f"colored_vessels_png/Unknown_Not defined_(default).png")
+            icon_url = get_asset_url(f"colored_vessels_png/Unknown_Not_defined_(default).png")
+            
+        print(icon_url)
         
         icon_html = f"""
             <div style="width: 21px; height: 21px; display: flex; align-items: center; justify-content: center;">
@@ -308,7 +312,7 @@ def update_ship_layer(n_intervals):
 
         markers.append(
             dl.DivMarker(
-                id=f"marker-{latest_row['MMSI']}",
+                id=f"marker-{latest_row['MMSI']}-{icon_filename}",
                 position=(latest_row['lat'], latest_row['lon']),
                 iconOptions=icon,
                 children=[

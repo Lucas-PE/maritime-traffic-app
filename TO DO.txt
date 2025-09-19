@@ -1,14 +1,15 @@
 - Penser aux variables d'environnement pour le déploiement
 - Auto clean_up du ais_position toutes les x minutes
 
-- Rotate the image in the vessel direction
-
 - En prenant une trop grosse zone --> On arrive vite au dessus des 2 secondes ! Interdire une trop grosse zone au début
 
 - Do not forget all attributions
 
 - Conversion vitesse en km/h ?
 
-- DYNAMIC LEGEND !
+- DYNAMIC LEGEND ! --> Put legend into an Offcanvas (DBC)
 
 - Tous les PNG ne s'affichent pas encore --> Reste sur le default icon (mais bien coloré ?) : A creuser pourquoi !!!
+
+
+Voir à partir de cb de lignes dans ais_position, le temps de build le dataframe dépasse la seconde ! --> Servira pour determiner les entrées à supprimer !

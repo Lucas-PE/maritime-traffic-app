@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
 .base-map{
     position: absolute;
@@ -5,4 +7,87 @@
     bottom: 0;
     right: 0;
     left: 0;
+}
+
+.initial-modal-header{
+    background-color: var(--blue4) !important;
+    justify-content: center;
+    color: var(--dust);
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+}
+
+.initial-modal-body{
+    background-color: var(--blue4) !important;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dust);
+}
+
+.initial-modal-catchphrase{
+    text-align: center;
+    padding-bottom: 20px !important;
+}
+
+.initial-modal-select .Select-control{
+    font-family: 'Montserrat', sans-serif;
+    margin-top: 10px;
+    color: var(--blue4) !important;
+    background-color: var(--dust);
+}
+
+.initial-modal-select .is-focused:not(.is-open){
+    box-shadow: 0 0 0 .25rem #d5f2e83e !important;
+    color: var(--blue4) !important;
+    border: 0px;
+}
+
+.initial-modal-select .Select-menu-outer{
+    background-color: #f8ede6;
+    color: var(--blue4) !important;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.initial-modal-second-step{
+    margin-top: 20px;
+}
+
+.initial-modal-info{
+    font-style: italic;
+    font-size: 12px;
+}
+
+.initial-modal-button-div{
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+}
+
+.initial-modal-button{
+    font-family: 'Cinzel', serif;
+    color: var(--blue4);
+    background-color: var(--dust);
+    border: 0px;
+}
+
+.initial-modal-button:hover{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: var(--blue3);
+    border: 0px;
+}
+
+.initial-modal-button:focus-visible{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: var(--blue3);
+    border: 0px;
+}
+
+.initial-modal-button:active{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1) !important;
+    background-color: var(--blue3) !important;
+    border: 0px !important;
 }
