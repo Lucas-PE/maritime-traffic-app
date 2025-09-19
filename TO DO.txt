@@ -1,15 +1,11 @@
-- Penser aux variables d'environnement pour le déploiement
-- Auto clean_up du ais_position toutes les x minutes
-
-- En prenant une trop grosse zone --> On arrive vite au dessus des 2 secondes ! Interdire une trop grosse zone au début
-
-- Do not forget all attributions
-
-- Conversion vitesse en km/h ?
-
-- DYNAMIC LEGEND ! --> Put legend into an Offcanvas (DBC)
-
-- Tous les PNG ne s'affichent pas encore --> Reste sur le default icon (mais bien coloré ?) : A creuser pourquoi !!!
-
-
 Voir à partir de cb de lignes dans ais_position, le temps de build le dataframe dépasse la seconde ! --> Servira pour determiner les entrées à supprimer !
+
+1) Interdire une trop grosse zone au début
+2) Auto clean_up du ais_position toutes les x lines
+3) DYNAMIC LEGEND ! --> Put legend into an Offcanvas (DBC) AT RIGHT
+4) CLICK ON VESSEL ! --> Offcanvas (DBC) AT LEFT with vessel information / category (size --> comparaison ? ouiiii) ... + all known positions ?
+5) AJOUTER DES COMPTEURS POUR LE COTE DYNAMIQUE !!! Nb de vessels displayed ...
+6) STYLES !!! (comme le premier modal)
+7) Conversion vitesse en km/h ?
+8) Penser aux variables d'environnement pour le déploiement
+9) Do not forget all attributions

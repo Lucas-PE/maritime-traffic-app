@@ -91,3 +91,10 @@
     background-color: var(--blue3) !important;
     border: 0px !important;
 }
+
+.vessel-tooltip{
+    background-color: var(--dust);
+    border-radius: 10px;
+    border-color: var(--dust);
+    color: var(--blue4);
+}

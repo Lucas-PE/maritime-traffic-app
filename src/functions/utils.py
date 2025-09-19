@@ -1,3 +1,4 @@
+import math
 
 # Convert leaflet coordinates selection into bounding box
 def polygon_to_bounding_box(nested_polygon_coords):
@@ -16,6 +17,27 @@ def polygon_to_bounding_box(nested_polygon_coords):
     lon_max = max(lons)
 
     return [[[lat_min, lon_min], [lat_max, lon_max]]]
+
+
+# Get the bbox area
+def bounding_box_area_ha(bbox):
+    
+    (lat_min, lon_min), (lat_max, lon_max) = bbox[0]
+
+    # Height in km
+    height_km = (lat_max - lat_min) * 111.0
+
+    # Width in km (adjusted for latitude)
+    mean_lat = (lat_max + lat_min) / 2.0
+    width_km = (lon_max - lon_min) * 111.0 * math.cos(math.radians(mean_lat))
+
+    # Area in km²
+    area_km2 = height_km * width_km
+
+    # Convert to hectares
+    area_ha = area_km2 * 100  # 1 km² = 100 ha
+
+    return f"{round(area_ha, 2):,} ha"
 
 
 # Get center from rectangle bbox
