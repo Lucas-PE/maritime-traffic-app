@@ -8,7 +8,8 @@ from components.tile_layers import tile_layers
 from components.map_components import (
     base_map,
     initial_popup,
-    confirmation_popup
+    confirmation_popup,
+    error_popup
 )
 
 dash.register_page(__name__, path='/map', name = "MAP")
@@ -21,6 +22,7 @@ def layout():
         dcc.Store('dummy-initial'),
         dcc.Store("confirmed-bbox", data=None, storage_type='memory'),
         dcc.Store("last-drawn-bbox", data=None, storage_type='memory'),
+        dcc.Store("redraw-trigger", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
         
         # Build the ships layer every 2 seconds
@@ -37,6 +39,9 @@ def layout():
         initial_popup(),
         
         # Confirmation Popup
-        confirmation_popup()
+        confirmation_popup(),
+        
+        # Error popup
+        error_popup()
         
         ])

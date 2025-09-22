@@ -37,7 +37,7 @@ def bounding_box_area_ha(bbox):
     # Convert to hectares
     area_ha = area_km2 * 100  # 1 km² = 100 ha
 
-    return f"{round(area_ha, 2):,} ha"
+    return round(area_ha, 0)
 
 
 # Get center from rectangle bbox

@@ -35,40 +35,59 @@ def change_basemap(layer_name):
     return tile_layers[layer_name]
 
 
-# Close initial modal on select + select DRAW RECTANGLE
+# SELECT LEAFLET "DRAW RECTANGLE" ON INITIAL SELECT AND REDRAW
 clientside_callback(
     """
-    function(n_clicks) {
-        if (!n_clicks) {
-            return [window.dash_clientside.no_update, ""];
-        }
+    function(counter) {
+        // ignore initial call
+        if (!counter) return window.dash_clientside.no_update;
 
-        var rectBtn = document.querySelector('.leaflet-draw-draw-rectangle');
-        if (rectBtn) {
-            rectBtn.click();
-        }
+        // store last counter to avoid repeated triggers
+        if (!window._last_redraw_counter) window._last_redraw_counter = 0;
+        if (counter <= window._last_redraw_counter) return window.dash_clientside.no_update;
+        window._last_redraw_counter = counter;
 
-        return [false, ""];  // close modal and dummy output
+        // wait a short time to avoid race with map updates / clearing shapes
+        setTimeout(function() {
+            var btn = document.querySelector('.leaflet-draw-draw-rectangle') ||
+                      document.querySelector('[class*="leaflet-draw-draw-rectangle"]') ||
+                      document.querySelector('.leaflet-control-draw .leaflet-draw-draw-rectangle');
+
+            if (btn) {
+                btn.dispatchEvent(new MouseEvent('mousedown', {bubbles:true}));
+                btn.dispatchEvent(new MouseEvent('mouseup', {bubbles:true}));
+                btn.click();
+            }
+        }, 50);  // 50ms delay
+
+        return window.dash_clientside.no_update;
     }
     """,
-    [Output("initial-modal", "is_open"), Output("dummy-initial", "data")],
-    Input("btn-select", "n_clicks"),
+    Output("dummy-confirmation", "data"),
+    Input("redraw-trigger", "data")
 )
 
-# 2. CONFIRMATION POPUP
-# CONFIRMATION POPUP :
+# MODALS HANDLER
+# INITIAL/CONFIRMATION/ERROR MODALS :
 @callback(
+    Output("initial-modal", "is_open"),
     Output("confirmation-modal", "is_open"),
-    Output("rectangle-coords-display", "children"),
+    Output("confirmation-popup-body", "children"),
+    Output("error-modal", "is_open"),
+    Output("error-popup-body", "children"),
     Output("last-drawn-bbox", "data"),
     Output("confirmed-bbox", "data"),
+    Output("redraw-trigger", "data"),
     Input("edit_control", "geojson"),
+    Input("btn-select", "n_clicks"),    
     Input("btn-ok", "n_clicks"),
     Input("btn-redraw", "n_clicks"),
+    Input("btn-error-redraw", "n_clicks"),
     State("last-drawn-bbox", "data"),
+    State("redraw-trigger", "data"),
     prevent_initial_call=True,
 )
-def confirmation_popup(polygon_coords, ok_click, redraw_click, last_bbox):
+def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, error_redraw_click, last_bbox, redraw_trigger_value):
     triggered = ctx.triggered_id
 
     if triggered == "edit_control":
@@ -84,27 +103,49 @@ def confirmation_popup(polygon_coords, ok_click, redraw_click, last_bbox):
         bbox = polygon_to_bounding_box(coords)
         bbox_area = bounding_box_area_ha(bbox)
         
-        print(bbox_area)
+        confirmation_body = html.Div([
+            html.Span(f"You selected an area of {bbox_area:,} ha"),
+            html.Br(),
+            html.Br(),
+            html.Span("Press OK to start real-time maritime traffic on your zone or REDRAW to select another area.")
+        ])
         
-        return True, html.Pre(str(bbox)), bbox, no_update
+        error_body = html.Div([
+            html.Span(f"You selected an area of {bbox_area:,} ha"),
+            html.Br(),
+            html.Br(),
+            html.Span("Please Redraw a rectangle of maximum 500,000,000 ha."),
+            html.Br(),
+            html.Br(),
+            html.Img(src='assets/selection_example.png', className='error-modal-image')
+        ])
+        
+        if bbox_area >= 500000000:
+            return False, False, None, True, error_body, bbox, no_update, no_update
+        
+        elif bbox_area <= 500000000:
+            return False, True, confirmation_body, False, None, bbox, no_update, no_update
 
-    elif triggered == "btn-redraw":
-        return False, no_update, None, None
+    elif triggered in ("btn-select", "btn-error-redraw", "btn-redraw"):
+        if redraw_trigger_value is None:
+            redraw_trigger_value = 0
+        return False, False, None, False, None, no_update, no_update, redraw_trigger_value+1
 
     elif triggered == "btn-ok":
-        return False, no_update, no_update, last_bbox
+        return False, False, None, False, None, no_update, last_bbox, no_update
 
     raise exceptions.PreventUpdate
 
 
-# Clear the selected rectangle on Redraw click and on confirmation !
+# Clear the selected rectangle on Redraw buttons and on confirmation !
 @callback(
     Output("edit_control", "editToolbar"),
     Input("btn-redraw", "n_clicks"),
+    Input("btn-error-redraw", "n_clicks"),
     Input("confirmed-bbox", "data"),
     prevent_initial_call=True
 )
-def clear_all_shapes(n, bbox):
+def clear_all_shapes(n, nn, bbox):
     return dict(mode="remove", action="clear all", n_clicks=n)
 
 
@@ -147,10 +188,10 @@ def update_map(bbox):
         # DRAW THE SELECTED RECTANGLE
         rectangle = dl.Rectangle(
             bounds=bbox,
-            color="blue",
+            color="#103A53",
             weight=1,
             fillOpacity=0.05,
-            fillColor="blue"
+            fillColor="#25A1A9"
             )
         
         # FLY TO THE SELECTED RECTANGLE

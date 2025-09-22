@@ -9,6 +9,7 @@
     left: 0;
 }
 
+/* INITIAL MODAL */
 .initial-modal-header{
     background-color: var(--blue4) !important;
     justify-content: center;
@@ -18,7 +19,7 @@
 }
 
 .initial-modal-body{
-    background-color: var(--blue4) !important;
+    background: linear-gradient(155deg,rgba(16, 58, 83, 1) 0%, rgba(16, 58, 83, 1) 36%, rgba(37, 161, 169, 1) 100%);
     font-family: 'Montserrat', sans-serif;
     color: var(--dust);
 }
@@ -51,6 +52,15 @@
     margin-top: 20px;
 }
 
+.initial-modal-important{
+    color: var(--blue1);
+}
+
+.initial-modal-sub-important{
+    font-style: italic;
+    color: var(--blue1);
+}
+
 .initial-modal-info{
     font-style: italic;
     font-size: 12px;
@@ -61,7 +71,6 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    
 }
 
 .initial-modal-button{
@@ -74,7 +83,7 @@
 .initial-modal-button:hover{
     font-family: 'Cinzel', serif;
     color: var(--blue1);
-    background-color: var(--blue3);
+    background-color: var(--blue4);
     border: 0px;
 }
 
@@ -91,6 +100,75 @@
     background-color: var(--blue3) !important;
     border: 0px !important;
 }
+
+/* ERROR MODAL */
+.error-modal-header{
+    background-color: #883e11 !important;
+    justify-content: center;
+    color: var(--dust);
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+}
+
+.error-modal-body{
+    background: linear-gradient(165deg, #883e11 0%, #883e11 36%, var(--dust) 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dust);
+    text-align: center;
+}
+
+.error-modal-image{
+    width: 400px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.error-modal-footer{
+    display: relative;
+    background: linear-gradient(145deg, #bc8c6f 0%, #d5b19c 36%, var(--dust) 80%);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dust);
+}
+
+.error-modal-button-div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: var(--blue4);
+}
+
+.error-modal-redraw-button{
+    font-family: 'Cinzel', serif;
+    color: var(--dust);
+    background-color: var(--blue4);
+    border: 0px;
+}
+
+.error-modal-redraw-button:hover{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: var(--blue3);
+    border: 0px;
+}
+
+.error-modal-redraw-button:focus-visible{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: var(--blue2);
+    border: 0px;
+}
+
+.error-modal-redraw-button:active{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1) !important;
+    background-color: var(--blue2) !important;
+    border: 0px !important;
+}
+
+
+
+
 
 .vessel-tooltip{
     background-color: var(--dust);

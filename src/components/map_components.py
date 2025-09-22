@@ -26,9 +26,6 @@ def base_map():
         zoom = 3
         )
 
-  
-# MAP FOR REAL TIME DATA
-
 
 # INITIAL POPUP
 def initial_popup():
@@ -51,6 +48,11 @@ def initial_popup():
                         html.Br(),
                         html.Br(),
                         "The Websocket will start and display the real-time maritime traffic in your zone.",
+                        html.Br(),
+                        html.Br(),
+                        html.Span("""IMPORTANT ! Your area must not exceed 500,000,000 ha.""", className='initial-modal-important'),
+                        html.Br(),
+                        html.Span("""Equivalent to a rectangle drawn around Kazakhstan""", className='initial-modal-sub-important'),
                         html.Br(),
                         html.Br(),
                         html.Span("Additionnal information on vessels are not available as soon as their position.", className='initial-modal-info')
@@ -77,11 +79,11 @@ def initial_popup():
 def confirmation_popup():
     return dbc.Modal(
         [
-            dbc.ModalHeader("Rectangle Coordinates", close_button=False),
-            dbc.ModalBody(id="rectangle-coords-display"),
+            dbc.ModalHeader("🚤 Valid area selected 🚤", close_button=False),
+            dbc.ModalBody(id="confirmation-popup-body"),
             dbc.ModalFooter([
                 dbc.Button("OK", id="btn-ok", color="success", className="me-2"),
-                dbc.Button("Redraw", id="btn-redraw", color="danger")
+                dbc.Button("REDRAW", id="btn-redraw", color="danger")
                 ])
             ],
         id="confirmation-modal",
@@ -90,4 +92,27 @@ def confirmation_popup():
         keyboard=False,
         centered=True,
         class_name='confirmation-modal'
+        )
+
+ 
+# ERROR POPUP
+def error_popup():
+    return dbc.Modal(
+        [
+            dbc.ModalHeader("🦈 Oops ... Too large Area ! 🦈", close_button=False, className='error-modal-header'),
+            dbc.ModalBody(id="error-popup-body", className='error-modal-body'),
+            dbc.ModalFooter([
+                html.Div([
+                    html.Span("--------------------------", className='error-button-span'),
+                    dbc.Button(" REDRAW ", id="btn-error-redraw", className='error-modal-redraw-button'),
+                    html.Span("--------------------------", className='error-button-span')
+                    ], className='error-modal-button-div'),
+            ], className='error-modal-footer')
+            ],
+        id="error-modal",
+        is_open=False,
+        backdrop="static",
+        keyboard=False,
+        centered=True,
+        class_name='error-modal'
         )
