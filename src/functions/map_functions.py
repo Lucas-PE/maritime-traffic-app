@@ -21,6 +21,8 @@ import threading
 import pandas as pd
 import time
 import os
+import json
+from filelock import FileLock
 
 ASSET_ICON_DIR = "src/assets/colored_vessels_png"
 DEFAULT_ICON = "src/assets/colored_vessels_png/Unknown_Not defined_(default).png"
@@ -114,16 +116,16 @@ def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, err
             html.Span(f"You selected an area of {bbox_area:,} ha"),
             html.Br(),
             html.Br(),
-            html.Span("Please Redraw a rectangle of maximum 500,000,000 ha."),
+            html.Span("Please Redraw a rectangle of maximum 100,000,000 ha."),
             html.Br(),
             html.Br(),
             html.Img(src='assets/selection_example.png', className='error-modal-image')
         ])
         
-        if bbox_area >= 500000000:
+        if bbox_area >= 100000000:
             return False, False, None, True, error_body, bbox, no_update, no_update
         
-        elif bbox_area <= 500000000:
+        elif bbox_area <= 100000000:
             return False, True, confirmation_body, False, None, bbox, no_update, no_update
 
     elif triggered in ("btn-select", "btn-error-redraw", "btn-redraw"):
@@ -243,6 +245,8 @@ def update_map(bbox):
 # UPDATE THE SHIP LAYER EVERY 2 SECONDS
 @callback(
     Output("ship-layer", "children"),
+    Output("df-build-time", "data"),
+    Output("df-rows-count", "data"),
     Input("ship-layer-interval", "n_intervals"),
     prevent_initial_call = True
 )
@@ -251,7 +255,11 @@ def update_ship_layer(n_intervals):
     start_time = time.time()
     
     # 1. Fetch the data
-    df_position = pd.read_json("src/data/raw/ais_position.json")
+    try:
+        df_position = pd.read_json("src/data/raw/ais_position.json")
+    except:
+        return no_update
+
     if df_position.empty:
         df_position = pd.DataFrame(columns=['timestamp', 'MMSI', 'ShipName', 'lat', 'lon', 'COG',
                                             'NavigationalStatus', 'RateOfTurn', 'SOG', 'Spare', 'UserID', "Heading"])
@@ -361,6 +369,93 @@ def update_ship_layer(n_intervals):
                     ]
                 ))
     
-    print("--- %s seconds ---" % (time.time() - start_time))
+    # RETURN THE BUILD TIME
+    build_time = round(time.time() - start_time, 2)
     
-    return markers + lines
+    # RETURN THE DF SIZE FOR AUTO CLEANING IF > 1,500 rows
+    row_count = final_df.shape[0]
+    if row_count >= 1500:
+        returned_rows_count = row_count
+    else:
+        returned_rows_count = no_update
+    
+    return markers + lines, build_time, returned_rows_count
+
+
+# JSON AUTO CLEAN TO DO !
+@callback(
+    Input("df-rows-count", "data"),
+    prevent_initial_call=True
+)
+def json_auto_clean(df_row_count):
+
+    json_path = "src/data/raw/ais_position.json"
+    lock_path = "src/data/raw/ais_position.json.lock"
+    tmp_path = json_path + ".tmp"
+
+    with FileLock(lock_path):
+
+        try:
+            # Load JSON
+            with open(json_path, "r") as f:
+                records = json.load(f)
+
+            if not isinstance(records, list) or len(records) == 0:
+                no_update
+
+            df = pd.DataFrame(records)
+
+            # Ensure required columns exist
+            required_cols = {"timestamp", "MMSI", "ShipName"}
+            if not required_cols.issubset(df.columns):
+                no_update
+
+            # Keep original timestamp
+            df['timestamp_orig'] = df['timestamp']
+
+            # Convert for sorting/cleaning (remove 'UTC')
+            df["timestamp"] = pd.to_datetime(
+                df['timestamp'].str.replace('UTC','').str.strip(),
+                errors='coerce'
+            ).dt.floor('s')
+
+            df.dropna(subset=['timestamp'], inplace=True)
+            if df.empty:
+                no_update
+
+            # Sort by group and timestamp
+            df.sort_values(['MMSI', 'ShipName', 'timestamp'], inplace=True)
+
+            # Drop oldest row per group if group has more than 1 row
+            cleaned_df = (
+                df.groupby(['MMSI', 'ShipName'], group_keys=False)
+                  .apply(lambda g: g.iloc[1:] if len(g) > 1 else g)
+                  .reset_index(drop=True)
+            )
+
+            # Restore original timestamp strings
+            cleaned_df['timestamp'] = cleaned_df['timestamp_orig']
+            cleaned_df = cleaned_df.drop(columns=['timestamp_orig'])
+
+            print(f"Cleaned JSON → {cleaned_df.shape[0]} rows remaining")
+
+            # --- Atomic write ---
+            with open(tmp_path, "w") as f:
+                json.dump(cleaned_df.to_dict(orient='records'), f, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+
+            # Replace original JSON with temp file
+            os.replace(tmp_path, json_path)
+
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            no_update
+        except Exception as e:
+            no_update
+        finally:
+            # Ensure tmp file is removed if it still exists
+            if os.path.exists(tmp_path):
+                try:
+                    os.remove(tmp_path)
+                except Exception:
+                    pass

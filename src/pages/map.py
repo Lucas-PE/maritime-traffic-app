@@ -23,6 +23,8 @@ def layout():
         dcc.Store("confirmed-bbox", data=None, storage_type='memory'),
         dcc.Store("last-drawn-bbox", data=None, storage_type='memory'),
         dcc.Store("redraw-trigger", data=None, storage_type='memory'),
+        dcc.Store("df-build-time", data=None, storage_type='memory'),
+        dcc.Store("df-rows-count", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
         
         # Build the ships layer every 2 seconds

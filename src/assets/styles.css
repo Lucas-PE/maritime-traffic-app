@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap');
 
+.leaflet-interactive{
+    stroke: #103A53 !important;
+    fill: #25a0a950!important;
+}
+
 .base-map{
     position: absolute;
     top: 0;
@@ -163,6 +168,93 @@
     font-family: 'Cinzel', serif;
     color: var(--blue1) !important;
     background-color: var(--blue2) !important;
+    border: 0px !important;
+}
+
+/* CONFIRMATION MODAL */
+.confirmation-modal-header{
+    background-color: #D5F2E8 !important;
+    justify-content: center;
+    color: var(--blue4);
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+}
+
+.confirmation-modal-body{
+    background: linear-gradient(165deg, #D5F2E8 0%, #D5F2E8 36%, var(--blue3) 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--blue4);
+    text-align: center;
+}
+
+.confirmation-modal-footer{
+    display: relative;
+    background: linear-gradient(145deg, #a8ddd8 0%, #51b5b8 46%, var(--blue3) 80%);
+    font-family: 'Montserrat', sans-serif;
+    color: var(--dust);
+}
+
+.confirmation-modal-button-div{
+    display: flex;
+    align-items: center;
+    justify-content:space-around;
+    width: 100%;
+    color: var(--blue4);
+}
+
+.confirmation-modal-redraw-button{
+    font-family: 'Cinzel', serif;
+    color: var(--blue4);
+    background-color: var(--dust);
+    border: 0px;
+}
+
+.confirmation-modal-redraw-button:hover{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: #9a6646;
+    border: 0px;
+}
+
+.confirmation-modal-redraw-button:focus-visible{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: #bc8c6f;
+    border: 0px;
+}
+
+.confirmation-modal-redraw-button:active{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1) !important;
+    background-color: #bc8c6f !important;
+    border: 0px !important;
+}
+
+.confirmation-modal-ok-button{
+    font-family: 'Cinzel', serif;
+    color: var(--dust);
+    background-color: var(--blue4);
+    border: 0px;
+}
+
+.confirmation-modal-ok-button:hover{
+    font-family: 'Cinzel', serif;
+    color: var(--blue1);
+    background-color: var(--blue3);
+    border: 0px;
+}
+
+.confirmation-modal-ok-button:focus-visible{
+    font-family: 'Cinzel', serif;
+    color: var(--blue4);
+    background-color: var(--blue1);
+    border: 0px;
+}
+
+.confirmation-modal-ok-button:active{
+    font-family: 'Cinzel', serif;
+    color: var(--blue4) !important;
+    background-color: var(--blue1) !important;
     border: 0px !important;
 }
 

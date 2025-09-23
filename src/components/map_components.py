@@ -50,9 +50,9 @@ def initial_popup():
                         "The Websocket will start and display the real-time maritime traffic in your zone.",
                         html.Br(),
                         html.Br(),
-                        html.Span("""IMPORTANT ! Your area must not exceed 500,000,000 ha.""", className='initial-modal-important'),
+                        html.Span("""IMPORTANT ! Your area must not exceed 100,000,000 ha.""", className='initial-modal-important'),
                         html.Br(),
-                        html.Span("""Equivalent to a rectangle drawn around Kazakhstan""", className='initial-modal-sub-important'),
+                        html.Span("""Equivalent to a rectangle drawn around France.""", className='initial-modal-sub-important'),
                         html.Br(),
                         html.Br(),
                         html.Span("Additionnal information on vessels are not available as soon as their position.", className='initial-modal-info')
@@ -79,12 +79,14 @@ def initial_popup():
 def confirmation_popup():
     return dbc.Modal(
         [
-            dbc.ModalHeader("🚤 Valid area selected 🚤", close_button=False),
-            dbc.ModalBody(id="confirmation-popup-body"),
+            dbc.ModalHeader("🚤 Valid area selected 🚤", close_button=False, className='confirmation-modal-header'),
+            dbc.ModalBody(id="confirmation-popup-body", className='confirmation-modal-body'),
             dbc.ModalFooter([
-                dbc.Button("OK", id="btn-ok", color="success", className="me-2"),
-                dbc.Button("REDRAW", id="btn-redraw", color="danger")
-                ])
+                html.Div([
+                    dbc.Button("OK", id="btn-ok", className='confirmation-modal-ok-button'),
+                    dbc.Button("REDRAW", id="btn-redraw", className='confirmation-modal-redraw-button')
+                ], className='confirmation-modal-button-div'),
+                ], className='confirmation-modal-footer')
             ],
         id="confirmation-modal",
         is_open=False,

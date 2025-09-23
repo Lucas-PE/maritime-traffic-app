@@ -35,7 +35,7 @@ def create_app() -> Dash:
                         serve_locally=True,
                         external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-        # dash_app._favicon = "nagravision.svg"
+        dash_app._favicon = "ico.png"
         dash_app.title = 'MY APP'        
         dash_app.layout = layout(page_container)
         return dash_app
@@ -52,8 +52,6 @@ if __name__ == "__main__":
     debug = False if os.environ.get("RENDER") else True
     
     pages = dash.page_registry.values()
-    for page in pages:
-        print(page["path"])
     dash_app.run(
         debug= debug,
         host = host,
