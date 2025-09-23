@@ -26,15 +26,27 @@ from filelock import FileLock
 
 ASSET_ICON_DIR = "src/assets/colored_vessels_png"
 DEFAULT_ICON = "src/assets/colored_vessels_png/Unknown_Not defined_(default).png"
-  
-# 1. INITIAL POPUP
+
+# Display Header on confirmation
+@callback(
+    Output("header-div", "style"),
+    Input("btn-ok", "n_clicks"),
+    prevent_initial_call=True
+)
+def display_header(ok_click):
+    return {'display':'flex'}
+
 # Change map background on dropdown change
 @callback(
     Output("basemap", "url"),
     Input("basemap-dropdown", "value"),
+    Input("header-tile-dropdown", "value")
 )
-def change_basemap(layer_name):
-    return tile_layers[layer_name]
+def change_basemap(layer_name_base, layer_name_live):
+    if layer_name_live is None:
+        return tile_layers[layer_name_base]
+    else:
+        return tile_layers[layer_name_live]
 
 
 # SELECT LEAFLET "DRAW RECTANGLE" ON INITIAL SELECT AND REDRAW
@@ -80,7 +92,7 @@ clientside_callback(
     Output("last-drawn-bbox", "data"),
     Output("confirmed-bbox", "data"),
     Output("redraw-trigger", "data"),
-    Input("edit_control", "geojson"),
+    Input("base_edit_control", "geojson"),
     Input("btn-select", "n_clicks"),    
     Input("btn-ok", "n_clicks"),
     Input("btn-redraw", "n_clicks"),
@@ -92,7 +104,7 @@ clientside_callback(
 def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, error_redraw_click, last_bbox, redraw_trigger_value):
     triggered = ctx.triggered_id
 
-    if triggered == "edit_control":
+    if triggered == "base_edit_control":
         if not polygon_coords or not polygon_coords.get("features"):
             raise exceptions.PreventUpdate
         
@@ -141,7 +153,7 @@ def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, err
 
 # Clear the selected rectangle on Redraw buttons and on confirmation !
 @callback(
-    Output("edit_control", "editToolbar"),
+    Output("base_edit_control", "editToolbar"),
     Input("btn-redraw", "n_clicks"),
     Input("btn-error-redraw", "n_clicks"),
     Input("confirmed-bbox", "data"),
@@ -153,39 +165,26 @@ def clear_all_shapes(n, nn, bbox):
 
 # REAL TIME MAP
 @callback(
-    Output("edit_control", "draw"),
-    Output("edit_control", "edit"),
+    Output("edit_control", "children"),
     Output("map", "viewport"),
     Output("selected-rectangle-layer", "children"),
     Output("ship-layer-interval", "disabled"),
     Input("confirmed-bbox", "data"),
+    Input("header-center-button", "n_clicks"),
     prevent_initial_call=True
 )
-def update_map(bbox):
+def update_map(bbox, center_button):
     from functions.ais_streamer import (clear_json,
                                         stream_ais_position,
                                         stream_ais_static,
                                         stop_event
                                         )
+    from components.map_components import LIVE_EDIT_CONTROL, LIVE_MEASURE_CONTROL
+    
     if bbox == None:
         raise exceptions.PreventUpdate
     
     if bbox != None:
-        
-        # SET ALL DRAW AND EDIT TO FALSE
-        draw_config = {
-            "rectangle": False,
-            "polygon": False,
-            "polyline": False,
-            "circle": False,
-            "marker": False,
-            "circlemarker": False
-            }
-        
-        edit_config = {
-            "edit": False,
-            "remove": False
-            }
         
         # DRAW THE SELECTED RECTANGLE
         rectangle = dl.Rectangle(
@@ -206,6 +205,15 @@ def update_map(bbox):
                 "padding": [20, 20]
                 }
             }
+        
+        # CASE OF Header Center Button triggered
+        if ctx.triggered_id == "header-center-button":
+            return (
+                no_update,
+                viewport,
+                no_update,
+                no_update
+            )
         
         # WEBSOCKET PROCESS :
         POSITION_JSON_PATH = "src/data/raw/ais_position.json"
@@ -234,8 +242,7 @@ def update_map(bbox):
             print("Interrupted. Shutting down.")
         
         return (
-            draw_config, # Disable draw
-            edit_config, # Disable delete
+            [LIVE_EDIT_CONTROL, LIVE_MEASURE_CONTROL], # Disable draw and delete + activate measures
             viewport, # Zoom on bbox
             [rectangle], # Draw the rectangle
             False # Enable the ship layer interval

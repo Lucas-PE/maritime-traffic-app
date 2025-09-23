@@ -11,6 +11,9 @@ from components.map_components import (
     confirmation_popup,
     error_popup
 )
+from components.nav_components import (
+    header
+)
 
 dash.register_page(__name__, path='/map', name = "MAP")
 
@@ -33,6 +36,9 @@ def layout():
                      n_intervals=0, 
                      disabled=True
                      ),
+        
+        # Header
+        header(),
         
         # Base map
         base_map(),

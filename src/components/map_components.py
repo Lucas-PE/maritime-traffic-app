@@ -3,20 +3,36 @@ import dash_leaflet as dl
 import dash_bootstrap_components as dbc
 from components.tile_layers import tile_layers
 
+BASE_EDIT_CONTROL = dl.EditControl(
+    id="base_edit_control",
+    draw={"rectangle": True, "polygon": False, "polyline": False,
+          "circle": False, "marker": False, "circlemarker": False},
+    edit={"edit": False, "remove": True}
+    )
+
+LIVE_EDIT_CONTROL = dl.EditControl(
+    id="live_edit_control",
+    draw={"rectangle": False, "polygon": False, "polyline": False,
+          "circle": False, "marker": False, "circlemarker": False},
+    edit={"edit": False, "remove": False}
+    )
+
+LIVE_MEASURE_CONTROL = dl.MeasureControl(
+    position="topright",
+    primaryLengthUnit="kilometers",
+    primaryAreaUnit="hectares",
+    activeColor="#7ED9D0",
+    completedColor="#25A1A9",
+    )
+
 # BASE MAP FOR SELECTION
 def base_map():
     # Initiate empty GeoJSON
     return dl.Map(
         [
             dl.TileLayer(id="basemap"),
-            dl.FeatureGroup([
-                dl.EditControl(
-                    id="edit_control",
-                    draw={"rectangle": True, "polygon": False, "polyline": False,
-                          "circle": False, "marker": False, "circlemarker": False},
-                    edit={"edit": False, "remove": True}
-                    ),
-                ]),
+            dl.FeatureGroup(id='edit_control',
+                            children=[BASE_EDIT_CONTROL]),
             dl.LayerGroup(id="selected-rectangle-layer"),
             dl.LayerGroup(id="ship-layer")
             ],

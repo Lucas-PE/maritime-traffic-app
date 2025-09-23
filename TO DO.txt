@@ -2,6 +2,7 @@ Voir à partir de cb de lignes dans ais_position, le temps de build le dataframe
 
 1) --- DONE --- Interdire une trop grosse zone au début
 2) --- DONE --- Auto clean_up du ais_position toutes les x lines
+IMPORTANT Faire apparaitre le header en translate
 3) Navigation header avec : dropdown base_map + choose new area (= reload la page !) + button pour recenter la vue + Divers infos
 4) DYNAMIC LEGEND ! --> Put legend into an Offcanvas (DBC) AT RIGHT
 5) CLICK ON VESSEL ! --> Offcanvas (DBC) AT LEFT with vessel information / category (size --> comparaison ? ouiiii) ... + all known positions ?
@@ -9,6 +10,7 @@ Voir à partir de cb de lignes dans ais_position, le temps de build le dataframe
 7) STYLES !!! (comme le premier modal)
 8) Conversion vitesse en km/h ?
 9) Penser aux variables d'environnement pour le déploiement
-10) Do not forget all attributions
+10) Do not forget all attributions --> In a footer
 
 Revoir les couleurs des vessels avec le :root
+need to disable square selection on ok-button
