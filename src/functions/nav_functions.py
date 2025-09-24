@@ -133,12 +133,24 @@ def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, err
     prevent_initial_call=True
 )
 def update_checklist_options(unique_pairs):
+    from functions.filters_dict import status_images
     if not unique_pairs:
         return [], []
     all_statuses = sorted({row[0] for row in unique_pairs})
     all_types = sorted({row[1] for row in unique_pairs})
+    
+    status_options = [
+        {
+            "label": [
+                html.Img(src=status_images.get(s, ""), style={"height": "20px", "width": "20px", "margin-left": "10px", "margin-top":"3px", "margin-bottom":"3px"}),
+                html.Span(s, style={"padding-left": "10px", "font-size": 12})
+            ],
+            "value": s
+        }
+        for s in all_statuses
+    ]
 
-    return all_statuses, all_types
+    return status_options, all_types
 
 # Store the filters
 @callback(

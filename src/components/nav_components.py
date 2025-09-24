@@ -44,7 +44,7 @@ def filter_offcanvas():
                            id="status-checklist",
                            options=[],
                            value=[],
-                           labelStyle={"display": "block"},
+                           labelStyle={"display": "flex", "align-items": "center"},
                            className='status-checklist'
                            ),
                        html.Br(),
@@ -53,6 +53,7 @@ def filter_offcanvas():
                            id="type-checklist",
                            options=[],
                            value=[],
+                           labelStyle={"display": "flex", "align-items": "center"},
                            className='type-checklist'
                            )
                        ], className='checklist-div')
