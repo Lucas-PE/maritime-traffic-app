@@ -12,7 +12,9 @@ from components.map_components import (
     error_popup
 )
 from components.nav_components import (
-    header
+    header,
+    filter_offcanvas,
+    tooltips_offcanvas
 )
 
 dash.register_page(__name__, path='/map', name = "MAP")
@@ -28,6 +30,9 @@ def layout():
         dcc.Store("redraw-trigger", data=None, storage_type='memory'),
         dcc.Store("df-build-time", data=None, storage_type='memory'),
         dcc.Store("df-rows-count", data=None, storage_type='memory'),
+        dcc.Store("unique-status-categories", data=None, storage_type='memory'),
+        dcc.Store("filtered-status", data=None, storage_type='memory'),
+        dcc.Store("filtered-category", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
         
         # Build the ships layer every 2 seconds
@@ -39,6 +44,12 @@ def layout():
         
         # Header
         header(),
+        
+        # Filter Offcanvas
+        filter_offcanvas(),
+        
+        # Tooltip Offcanvas
+        tooltips_offcanvas(),
         
         # Base map
         base_map(),

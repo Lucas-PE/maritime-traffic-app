@@ -1,5 +1,5 @@
 from dash import html
-from functions import map_functions
+from functions import map_functions, nav_functions
 
 def layout(choosen_page):
     return html.Div(

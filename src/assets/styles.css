@@ -181,7 +181,7 @@
 }
 
 .confirmation-modal-body{
-    background: linear-gradient(165deg, #D5F2E8 0%, #D5F2E8 36%, var(--blue3) 100%);
+    background: linear-gradient(171deg, #D5F2E8 0%, #D5F2E8 36%, var(--blue3) 100%);
     font-family: 'Montserrat', sans-serif;
     color: var(--blue4);
     text-align: center;
@@ -335,6 +335,134 @@
 }
 
 
+/* FILTERS Offcanvas */
+@keyframes slide-in {
+    0% {
+        transform: translate(0%, -180%);  /* start far to the right */
+        opacity: 0;
+    }
+    100% {
+        transform: translate(0, -0%);     /* final centered X position */
+        opacity: 1;
+    }
+}
+
+.filter-button {
+    position: fixed;
+    display: none;
+    align-items: end;
+    rotate: 90deg;
+    vertical-align: middle;
+    top: 45%;
+    right: -75px;
+    z-index: 1000;  
+    background-color: var(--blue4);
+    color: var(--dust);
+    border: none;
+    cursor: pointer;
+    height: 45px;
+    white-space: pre;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    animation: slide-in 0.8s ease-out forwards;
+}
+
+.filter-button:hover{
+    color: var(--blue1);
+    background-color: var(--blue4);
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.filter-button:focus-visible{
+    color: var(--blue1);
+    background-color: #1f6288;
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.filter-button:active{
+    color: var(--blue1) !important;
+    background-color: #1f6288 !important;
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.filter-offcanvas {
+    display: flex;
+    vertical-align: middle;
+    top: 90px !important;
+    z-index: 1000;  
+    background-color: #7e97a5;
+    border-top: 2px solid var(--blue4) !important;
+    border-bottom: 2px solid var(--blue4) !important;
+    border-left: 2px solid var(--blue4) !important;
+    color: var(--dust);
+    height: 80%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+}
+
+#status-checklist input[type="checkbox"]:checked {
+    accent-color: var(--blue4);
+}
+
+#type-checklist input[type="checkbox"]:checked {
+    accent-color: var(--blue4);
+}
+
+
+
+/* TOOLTIPS Offcanvas */
+.tooltips-button {
+    position: fixed;
+    display: none;
+    align-items: end;
+    rotate: -90deg;
+    vertical-align: middle;
+    top: 45%;
+    left: -75px;
+    z-index: 1000;  
+    background-color: var(--blue4);
+    color: var(--dust);
+    border: none;
+    cursor: pointer;
+    height: 45px;
+    white-space: pre;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    animation: slide-in 0.8s ease-out forwards;
+}
+
+.tooltips-button:hover{
+    color: var(--blue1);
+    background-color: var(--blue4);
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.tooltips-button:focus-visible{
+    color: var(--blue1);
+    background-color: #1f6288;
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.tooltips-button:active{
+    color: var(--blue1) !important;
+    background-color: #1f6288 !important;
+    border: 1px solid rgb(214, 211, 211);
+}
+
+.tooltips-offcanvas {
+    display: flex;
+    vertical-align: middle;
+    top: 90px !important;
+    z-index: 1000;  
+    background-color: #7e97a5;
+    border-top: 2px solid var(--blue4) !important;
+    border-bottom: 2px solid var(--blue4) !important;
+    border-right: 2px solid var(--blue4) !important;
+    color: var(--dust);
+    height: 80%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+}
 
 
 
