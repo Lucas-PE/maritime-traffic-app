@@ -11,4 +11,27 @@ status_images = {
     "Reserved for future use": "/assets/colored_vessels_png/Unknown_Reserved_for_future_use.png",
     "AIS-SART is active": "/assets/colored_vessels_png/Unknown_1AIS-SART_is_active.png",
     "Not defined (default)": "/assets/colored_vessels_png/Unknown_Not_defined_(default).png",
+    "Reserved for future amendment of Navigational Status for HSC": "/assets/colored_vessels_png/Unknown_Not_defined_(default).png"
+}
+
+category_images = {
+    "Other": "/assets/based_vessels_png/Unknown.png",
+    "Cargo": "/assets/based_vessels_png/Cargo.png",
+    "Dredging": "/assets/based_vessels_png/Dredging.png",
+    "Fishing": "/assets/based_vessels_png/Fishing.png",
+    "HSC": "/assets/based_vessels_png/HSC.png",
+    "Medical": "/assets/based_vessels_png/Medical.png",
+    "Military": "/assets/based_vessels_png/Military.png",
+    "Passenger": "/assets/based_vessels_png/Passenger.png",
+    "Pleasure": "/assets/based_vessels_png/Pleasure.png",
+    "S&R": "/assets/based_vessels_png/S&R.png",
+    "Sailing": "/assets/based_vessels_png/Sailing.png",
+    "Tanker": "/assets/based_vessels_png/Tanker.png",
+    "Towing": "/assets/based_vessels_png/Towing.png",
+    "Tug": "/assets/based_vessels_png/Tug.png",
+    "Unknown": "/assets/based_vessels_png/Unknown.png",
+    "Not Used": "/assets/based_vessels_png/Unknown.png",
+    "Pilot": "/assets/based_vessels_png/Unknown.png",
+    "Port Tender": "/assets/based_vessels_png/Unknown.png",
+    "Law Enforcement": "/assets/based_vessels_png/Unknown.png",   
 }

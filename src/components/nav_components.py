@@ -36,10 +36,21 @@ def filter_offcanvas():
                 id='filter-offcanvas',
                 children=[
                    html.Div([
-                       html.Span("Check any element to hide it :"),
+                       html.Span("Check an element to hide it :", className='filter-span'),
                        html.Br(),
                        html.Br(),
-                       html.H6("Navigational Status"),
+                       html.H6("Navigational Status", className='filter-sub-header'),
+                       dcc.Checklist(
+                           id="select-all-status",
+                           options=[{"label": html.Span("Select All", style={"padding-left": "10px", 
+                                                                             "font-size": 14, 
+                                                                             "margin-top":"5px", 
+                                                                             "margin-bottom":"5px",
+                                                                             "color":"#D5F2E8"}), "value": "All"}],
+                           value=[],
+                           labelStyle={"display": "flex", "align-items": "center"},
+                           className='select-all-status'
+                           ),
                        dcc.Checklist(
                            id="status-checklist",
                            options=[],
@@ -48,7 +59,18 @@ def filter_offcanvas():
                            className='status-checklist'
                            ),
                        html.Br(),
-                       html.H6("Vessel Category"),
+                       html.H6("Vessel Category", className='filter-sub-header'),
+                       dcc.Checklist(
+                           id="select-all-category",
+                           options=[{"label": html.Span("Select All", style={"padding-left": "10px", 
+                                                                             "font-size": 14, 
+                                                                             "margin-top":"5px", 
+                                                                             "margin-bottom":"5px",
+                                                                             "color":"#D5F2E8"}), "value": "All"}],
+                           value=[],
+                           labelStyle={"display": "flex", "align-items": "center"},
+                           className='select-all-category'
+                           ),
                        dcc.Checklist(
                            id="type-checklist",
                            options=[],

@@ -133,7 +133,7 @@ def confirmation_popup(polygon_coords, select_click, ok_click, redraw_click, err
     prevent_initial_call=True
 )
 def update_checklist_options(unique_pairs):
-    from functions.filters_dict import status_images
+    from functions.filters_dict import status_images, category_images
     if not unique_pairs:
         return [], []
     all_statuses = sorted({row[0] for row in unique_pairs})
@@ -149,8 +149,20 @@ def update_checklist_options(unique_pairs):
         }
         for s in all_statuses
     ]
+    
+    category_options = [
+        {
+            "label": [
+                html.Img(src=category_images.get(s, ""), style={"height": "20px", "width": "20px", "margin-left": "10px", "margin-top":"3px", "margin-bottom":"3px"}),
+                html.Span(s, style={"padding-left": "10px", "font-size": 12})
+            ],
+            "value": s
+        }
+        for s in all_types
+    ]
 
-    return status_options, all_types
+    return status_options, category_options
+
 
 # Store the filters
 @callback(
@@ -171,3 +183,37 @@ def store_filters(filtered_status, filtered_category):
         stored_category.extend(filtered_category)
     
     return stored_status, stored_category
+
+
+# "Select all" filters
+clientside_callback(
+    """
+    function(selectAllValue, allOptions) {
+        // If 'Select All' is checked, return all options
+        if (selectAllValue.includes("All")) {
+            return allOptions.map(o => o.value);
+        }
+        // If not, return an empty list
+        return [];
+    }
+    """,
+    Output("status-checklist", "value"),
+    Input("select-all-status", "value"),
+    [State("status-checklist", "options")]
+)
+
+clientside_callback(
+    """
+    function(selectAllValue, allOptions) {
+        // If 'Select All' is checked, return all options
+        if (selectAllValue.includes("All")) {
+            return allOptions.map(o => o.value);
+        }
+        // If not, return an empty list
+        return [];
+    }
+    """,
+    Output("type-checklist", "value"),
+    Input("select-all-category", "value"),
+    [State("type-checklist", "options")]
+)

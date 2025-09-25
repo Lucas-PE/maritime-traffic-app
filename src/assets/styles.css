@@ -401,13 +401,36 @@
 }
 
 #status-checklist input[type="checkbox"]:checked {
-    accent-color: var(--blue4);
+    accent-color: var(--blue3);
 }
 
 #type-checklist input[type="checkbox"]:checked {
+    accent-color: var(--blue3);
+}
+
+#select-all-category input[type="checkbox"]:checked {
     accent-color: var(--blue4);
 }
 
+#select-all-category .label {
+    padding-left: 10px;
+}
+
+#select-all-status input[type="checkbox"]:checked {
+    accent-color: var(--blue4);
+}
+
+.filter-span{
+    font-style: italic;
+    color: var(--blue4);
+}
+
+.filter-sub-header{
+    color: var(--blue4);
+    font-weight: 600;
+    border-bottom: 1px solid var(--blue4);
+    padding-bottom: 5px;
+}
 
 
 /* TOOLTIPS Offcanvas */
