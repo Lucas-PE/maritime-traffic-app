@@ -195,9 +195,6 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
     df_static_latest = df_static.sort_values("timestamp").drop_duplicates("MMSI", keep="last")
     # Add the Ship Type string
     df_static_latest = pd.merge(df_static_latest, df_types, on='Type', how='left')
-    # Calculate Lenght and Width
-    df_static_latest["Length"] = df_static_latest["Dimension"].apply(lambda x: x.get("A", 0) + x.get("B", 0))
-    df_static_latest["Width"] = df_static_latest["Dimension"].apply(lambda x: x.get("C", 0) + x.get("D", 0))
 
     # Join Navigation Status to position
     df_position_final = pd.merge(df_position, df_status, on='NavigationalStatus', how='left')
@@ -217,7 +214,6 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
 
     
     # 3. Build markers & lines
-    
     markers = []
     lines = []
     
@@ -287,7 +283,7 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
 
         markers.append(
             dl.DivMarker(
-                id=f"marker-{latest_row['MMSI']}-{icon_filename}",
+                id={"type": "vessel-marker", "index": f"marker-{latest_row['MMSI']}-{icon_filename}"},
                 position=(latest_row['lat'], latest_row['lon']),
                 iconOptions=icon,
                 children=[

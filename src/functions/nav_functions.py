@@ -7,7 +7,10 @@ from dash import (
     ctx,
     State,
     exceptions,
-    clientside_callback
+    clientside_callback,
+    MATCH,
+    ALLSMALLER,
+    ALL
 )
 from components.tile_layers import tile_layers
 from functions.utils import (
@@ -217,3 +220,129 @@ clientside_callback(
     Input("select-all-category", "value"),
     [State("type-checklist", "options")]
 )
+
+
+# STORE VESSEL ID CLICKED
+@callback(
+    Output("clicked-vessel", "data"),
+    Input({"type": "vessel-marker", "index":ALL}, "n_clicks"),
+    prevent_initial_call=True
+)
+def marker_clicked(n_clicks):
+    # Only proceed if a marker was actually clicked
+    n_clicks = [n if n is not None else 0 for n in n_clicks]
+
+    if ctx.triggered_id and sum(n_clicks) > 0:
+        # ctx.triggered_id is the dict of the clicked marker
+        return ctx.triggered_id
+    return no_update
+
+
+# GET AND DISPLAY DATA OF CLICKED VESSEL
+@callback(
+    Output("tooltips-offcanvas", "children"),
+    Input("clicked-vessel", "data"),
+    prevent_initial_call=True
+)
+def display_clicked_vessel(clicked_id):
+    if clicked_id is None:
+        return html.Span("Click on any vessel to display detailed information.")
+    
+    if clicked_id:
+        # Get the MMSI in the ID
+        MMSI = clicked_id.get('index').split('-')[1]
+        MMSI = int(MMSI)
+        
+        # GET ALL ENTRIES FOR THE CLICKED MMSI
+        try:
+            df_position = pd.read_json("src/data/raw/ais_position.json")
+        except:
+            return no_update
+        
+        df_types = pd.read_csv("src/data/raw/ais_ShipTypes.csv", sep=";")
+        df_status = pd.read_csv("src/data/raw/ais_NavigationStatus.csv", sep=";")
+        
+        clicked_df_position = df_position[df_position["MMSI"] == MMSI]
+
+        df_static = pd.read_json("src/data/raw/ais_static.json")
+        if df_static.empty:
+            df_static = pd.DataFrame(columns=['timestamp', 'MMSI', 'Destination', 'Dimension', 'Eta', 'Type'])
+        clicked_df_static = df_static[df_static["MMSI"] == MMSI]
+        clicked_df_static = df_static.sort_values("timestamp").drop_duplicates("MMSI", keep="last")
+        
+        clicked_df_position['timestamp'] = pd.to_datetime(clicked_df_position['timestamp'].str.replace('UTC', ''), format='ISO8601').dt.floor('s')
+        clicked_df_static['timestamp'] = pd.to_datetime(clicked_df_static['timestamp'].str.replace('UTC', ''), format='ISO8601').dt.floor('s')
+        
+        # Join Navigation Status to position
+        clicked_df_position = pd.merge(clicked_df_position, df_status, on='NavigationalStatus', how='left')
+        # Add the Ship Type string
+        clicked_df_static = pd.merge(clicked_df_static, df_types, on='Type', how='left')
+        # Calculate Lenght and Width
+        clicked_df_static["Length"] = clicked_df_static["Dimension"].apply(lambda x: x.get("A", 0) + x.get("B", 0))
+        clicked_df_static["Width"] = clicked_df_static["Dimension"].apply(lambda x: x.get("C", 0) + x.get("D", 0))
+        
+        final_clicked_mmsi = pd.merge(clicked_df_position, clicked_df_static, on='MMSI', how='left', suffixes = ('_position', '_static'))
+        final_clicked_mmsi = final_clicked_mmsi.fillna('Unknown')
+        
+        latest_clicked_mmsi = final_clicked_mmsi.sort_values("timestamp_position").drop_duplicates("MMSI", keep="last")
+        
+        if latest_clicked_mmsi.Eta.iloc[0] == "Unknown":
+            ETA = "Unknown"
+        else:
+            ETA = html.Span(f"""
+                            {latest_clicked_mmsi.Eta.iloc[0]['Month']} Month(s),
+                            {latest_clicked_mmsi.Eta.iloc[0]['Day']} Day(s),
+                            {latest_clicked_mmsi.Eta.iloc[0]['Hour']} Hour(s),
+                            {latest_clicked_mmsi.Eta.iloc[0]['Minute']} Minute(s),""", 
+                            className="tooltip-displayed-info")
+        
+        print(final_clicked_mmsi.columns)
+        print(final_clicked_mmsi)
+        
+        # BUILD THE DIV
+        # Montrer sog evolution avec un graph
+        displayed_tooltip = html.Div([
+            html.Span("Additionnal information on vessels are sent every 6 minutes.", className='tooltip-info-italic'),
+            html.Br(),           
+            html.Span(f"{latest_clicked_mmsi.MMSI.iloc[0]} - {latest_clicked_mmsi.ShipName.iloc[0]}", className='tooltip-mmsi-name'),
+            html.Br(), 
+            html.Br(),
+            html.Span("Navigational Status", className="tooltip-sub-titles"),
+            html.Br(),
+            html.Span(latest_clicked_mmsi["Status Description"].iloc[0], className="tooltip-displayed-info"),
+            html.Br(),
+            html.Span("Category", className="tooltip-sub-titles"),
+            html.Br(),
+            html.Span(latest_clicked_mmsi.Category.iloc[0], className="tooltip-displayed-info"),
+            html.Br(),
+            html.Span("Destination", className="tooltip-sub-titles"),
+            html.Br(),
+            html.Span(latest_clicked_mmsi.Destination.iloc[0], className="tooltip-displayed-info"),
+            html.Br(),
+            html.Span("Estimated Time of Arrival", className="tooltip-sub-titles"),
+            html.Br(),
+            ETA,
+            html.Br(),
+            html.Span("Rate of Turn", className="tooltip-sub-titles"),
+            html.Br(),
+            html.Span(latest_clicked_mmsi.RateOfTurn.iloc[0], className="tooltip-displayed-info"),
+            html.Br(),
+            html.Span("Lenght - Width", className="tooltip-sub-titles"),
+            html.Br(),
+            html.Span(f"{latest_clicked_mmsi.Length.iloc[0]} m. - {latest_clicked_mmsi.Width.iloc[0]} m.", className="tooltip-displayed-info"),
+        ], className='clicked-tooltip-div')
+        
+        
+        
+        return displayed_tooltip
+    
+
+
+
+
+
+    
+    # # 2. Transform data
+
+
+    # # final_df

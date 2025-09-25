@@ -102,9 +102,7 @@ def tooltips_offcanvas():
                        ),
             dbc.Offcanvas(
                 id='tooltips-offcanvas',
-                children=[
-                   html.Span("tooltips here") 
-                ],
+                children=[],
                 title="VESSEL INFORMATION",
                 placement='start',
                 is_open=False,

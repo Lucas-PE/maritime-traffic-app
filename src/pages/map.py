@@ -33,6 +33,7 @@ def layout():
         dcc.Store("unique-status-categories", data=None, storage_type='memory'),
         dcc.Store("filtered-status", data=None, storage_type='memory'),
         dcc.Store("filtered-category", data=None, storage_type='memory'),
+        dcc.Store("clicked-vessel", data=None, storage_type='memory'),
         dcc.Store('dummy-confirmation'),
         
         # Build the ships layer every 2 seconds
