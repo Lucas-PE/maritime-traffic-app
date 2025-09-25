@@ -6,6 +6,10 @@
     fill: #25a0a950!important;
 }
 
+.modebar{
+      display: none !important;
+}
+
 .base-map{
     position: absolute;
     top: 0;
@@ -486,6 +490,91 @@
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
 }
+
+.tooltip-info-italic{
+    font-style: italic;
+    color: var(--blue4);
+    font-size: 14px;
+    margin-bottom: 10px;
+    align-self: center;
+    justify-self: center;
+    padding-bottom: 10px;
+}
+
+.tooltip-mmsi-name{
+    color: var(--blue1);
+    margin-bottom: 10px;
+    align-self: center;
+    justify-self: center;
+    padding-bottom: 10px;
+    font-weight: 600;
+}
+
+.tooltip-sub-titles{
+    color: var(--blue4);
+    font-weight: 600;
+    border-bottom: 1px solid var(--blue4);
+    padding-bottom: 5px;
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tooltip-displayed-info{
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.sog-fig{
+    margin-top: -34px;
+}
+
+/* FOOTER */
+.footer-div{
+    position: absolute;
+    display: none;
+    width: 100%;
+    background: linear-gradient(to left, #103a5300 0%, #103a5375 25%, #103a53c6 50%, #103a5375 75%, #103a5300 100%);
+    z-index: 10000;
+    justify-self: center;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--blue1);
+    font-family: 'Montserrat', sans-serif;
+    height: 45px;
+    animation: fadeInScale 0.8s ease-out forwards;
+    transform-origin: center center;
+    bottom: 0;
+}
+
+.footer-info{
+    color: var(--blue4);
+    font-size: 14px;
+    margin-left: 45px;
+}
+
+.footer-count{
+    color: var(--blue2);
+    font-weight: 600;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.href-div{
+    color: var(--blue4);
+    font-size: 12px; 
+    margin-right: 45px;
+}
+
+.footer-href1{
+    margin-left: 5px;
+}
+
+.footer-href2{
+    margin-left: 5px;
+}
+
 
 
 

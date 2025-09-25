@@ -14,7 +14,8 @@ from components.map_components import (
 from components.nav_components import (
     header,
     filter_offcanvas,
-    tooltips_offcanvas
+    tooltips_offcanvas,
+    footer
 )
 
 dash.register_page(__name__, path='/map', name = "MAP")
@@ -30,6 +31,8 @@ def layout():
         dcc.Store("redraw-trigger", data=None, storage_type='memory'),
         dcc.Store("df-build-time", data=None, storage_type='memory'),
         dcc.Store("df-rows-count", data=None, storage_type='memory'),
+        dcc.Store("displayed-rows-count", data=None, storage_type='memory'),
+        dcc.Store("df-unique-vessels", data=None, storage_type='memory'),
         dcc.Store("unique-status-categories", data=None, storage_type='memory'),
         dcc.Store("filtered-status", data=None, storage_type='memory'),
         dcc.Store("filtered-category", data=None, storage_type='memory'),
@@ -54,6 +57,9 @@ def layout():
         
         # Base map
         base_map(),
+        
+        # Footer
+        footer(),
         
         # Initial popup
         initial_popup(),

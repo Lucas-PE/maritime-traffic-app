@@ -8,8 +8,7 @@ from dash import (
     State,
     exceptions,
     clientside_callback,
-    MATCH,
-    ALLSMALLER,
+    dcc,
     ALL
 )
 from components.tile_layers import tile_layers
@@ -17,33 +16,47 @@ from functions.utils import (
     polygon_to_bounding_box, bounding_box_area_ha
 )
 import pandas as pd
+import plotly.express as px
 
 # Display Header and Offcanvas button on confirmation
 @callback(
     Output("header-div", "style"),
     Output("filter-button", "style"),
     Output("tooltips-button", "style"),
+    Output("footer-div", "style"),
     Input("btn-ok", "n_clicks"),
     prevent_initial_call=True
 )
 def display_header(ok_click):
-    return {'display':'flex'}, {'display':'flex'}, {'display':'flex'}
+    return {'display':'flex'}, {'display':'flex'}, {'display':'flex'}, {'display':'flex'}
 
 
-# Display OffCanvas on btn click
+# Display OffCanvas on btn or vessel click
 @callback(
-    Output('tooltips-offcanvas', 'is_open'),
-    Output('filter-offcanvas', 'is_open'),
+    Output("clicked-vessel", "data"),
+    Output("tooltips-offcanvas", "is_open"),
+    Output("filter-offcanvas", "is_open"),
     Input("tooltips-button", "n_clicks"),
-    Input("filter-button", "n_clicks")  
+    Input("filter-button", "n_clicks"),
+    Input({"type": "vessel-marker", "index": ALL}, "n_clicks"),
+    prevent_initial_call=True
 )
-def open_offcanvas(tooltip_click, filter_click):
-    if ctx.triggered_id == 'tooltips-button':
-        return True, False
-    if ctx.triggered_id == 'filter-button':
-        return False, True
-    else:
-        return no_update, no_update
+def handle_offcanvas_and_marker(tooltip_click, filter_click, marker_clicks):
+    # Normalize n_clicks list for markers (None -> 0)
+    marker_clicks = [n if n is not None else 0 for n in marker_clicks]
+
+    trig = ctx.triggered_id
+
+    if isinstance(trig, dict) and trig.get("type") == "vessel-marker" and sum(marker_clicks) > 0:
+        return trig, True, False
+
+    if trig == "tooltips-button":
+        return no_update, True, False
+
+    if trig == "filter-button":
+        return no_update, False, True
+
+    return no_update, no_update, no_update
 
 
 # Change map background on dropdown change
@@ -222,22 +235,6 @@ clientside_callback(
 )
 
 
-# STORE VESSEL ID CLICKED
-@callback(
-    Output("clicked-vessel", "data"),
-    Input({"type": "vessel-marker", "index":ALL}, "n_clicks"),
-    prevent_initial_call=True
-)
-def marker_clicked(n_clicks):
-    # Only proceed if a marker was actually clicked
-    n_clicks = [n if n is not None else 0 for n in n_clicks]
-
-    if ctx.triggered_id and sum(n_clicks) > 0:
-        # ctx.triggered_id is the dict of the clicked marker
-        return ctx.triggered_id
-    return no_update
-
-
 # GET AND DISPLAY DATA OF CLICKED VESSEL
 @callback(
     Output("tooltips-offcanvas", "children"),
@@ -287,7 +284,7 @@ def display_clicked_vessel(clicked_id):
         latest_clicked_mmsi = final_clicked_mmsi.sort_values("timestamp_position").drop_duplicates("MMSI", keep="last")
         
         if latest_clicked_mmsi.Eta.iloc[0] == "Unknown":
-            ETA = "Unknown"
+            ETA = html.Span("Unknown", className="tooltip-displayed-info")
         else:
             ETA = html.Span(f"""
                             {latest_clicked_mmsi.Eta.iloc[0]['Month']} Month(s),
@@ -296,53 +293,66 @@ def display_clicked_vessel(clicked_id):
                             {latest_clicked_mmsi.Eta.iloc[0]['Minute']} Minute(s),""", 
                             className="tooltip-displayed-info")
         
-        print(final_clicked_mmsi.columns)
-        print(final_clicked_mmsi)
+        if latest_clicked_mmsi.SOG.iloc[0] == "Unknown":
+            SOG = html.Span("Unknown", className="tooltip-displayed-info")
+        if latest_clicked_mmsi.SOG.iloc[0] == 0:
+            SOG = html.Span("Unknown", className="tooltip-displayed-info")
+        else:
+            SOG = dcc.Graph(
+                id='sog-evolution',
+                figure= px.bar(
+                    final_clicked_mmsi,
+                    x="timestamp_position", 
+                    y="SOG",
+                    title=None,
+                    labels={"timestamp_position": "Time", "SOG": "Speed over Ground (knots)"},
+                    height=350,
+                    color_discrete_sequence=["#F2DDD0"]
+                    ).update_layout(
+                        paper_bgcolor="rgba(0,0,0,0)",
+                        plot_bgcolor="rgba(0,0,0,0)"
+                    ),
+                    className='sog-fig'
+                )
         
         # BUILD THE DIV
         # Montrer sog evolution avec un graph
         displayed_tooltip = html.Div([
             html.Span("Additionnal information on vessels are sent every 6 minutes.", className='tooltip-info-italic'),
+            html.Br(),
             html.Br(),           
             html.Span(f"{latest_clicked_mmsi.MMSI.iloc[0]} - {latest_clicked_mmsi.ShipName.iloc[0]}", className='tooltip-mmsi-name'),
             html.Br(), 
-            html.Br(),
+            html.Br(),             
             html.Span("Navigational Status", className="tooltip-sub-titles"),
-            html.Br(),
             html.Span(latest_clicked_mmsi["Status Description"].iloc[0], className="tooltip-displayed-info"),
-            html.Br(),
             html.Span("Category", className="tooltip-sub-titles"),
-            html.Br(),
             html.Span(latest_clicked_mmsi.Category.iloc[0], className="tooltip-displayed-info"),
-            html.Br(),
             html.Span("Destination", className="tooltip-sub-titles"),
-            html.Br(),
             html.Span(latest_clicked_mmsi.Destination.iloc[0], className="tooltip-displayed-info"),
-            html.Br(),
             html.Span("Estimated Time of Arrival", className="tooltip-sub-titles"),
-            html.Br(),
             ETA,
-            html.Br(),
             html.Span("Rate of Turn", className="tooltip-sub-titles"),
-            html.Br(),
             html.Span(latest_clicked_mmsi.RateOfTurn.iloc[0], className="tooltip-displayed-info"),
-            html.Br(),
             html.Span("Lenght - Width", className="tooltip-sub-titles"),
-            html.Br(),
             html.Span(f"{latest_clicked_mmsi.Length.iloc[0]} m. - {latest_clicked_mmsi.Width.iloc[0]} m.", className="tooltip-displayed-info"),
-        ], className='clicked-tooltip-div')
-        
-        
+            html.Span("(SOG) Speed Evolution", className="tooltip-sub-titles"),
+            SOG
+            ], className='clicked-tooltip-div')
         
         return displayed_tooltip
     
 
-
-
-
-
-    
-    # # 2. Transform data
-
-
-    # # final_df
+# Display footer kpis
+@callback(
+    Output('footer-counts', 'children'),
+    Input('displayed-rows-count', 'data'),
+    Input('df-unique-vessels', 'data')
+)
+def footer_kpis(total_rows, unique_vessels):
+    return html.Div([
+        html.Span(total_rows, className='footer-count'),
+        html.Span("points displayed ---", className='footer-count-description'),
+        html.Span(unique_vessels, className='footer-count'),
+        html.Span("unique vessels", className='footer-count-description')
+    ])   

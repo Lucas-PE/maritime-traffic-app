@@ -160,6 +160,8 @@ def update_map(bbox, center_button):
     Output("ship-layer", "children"),
     Output("df-build-time", "data"),
     Output("df-rows-count", "data"),
+    Output("displayed-rows-count", "data"),
+    Output('df-unique-vessels', 'data'),
     Output("unique-status-categories", "data"),
     Input("ship-layer-interval", "n_intervals"),
     Input("filtered-status", "data"),
@@ -294,14 +296,18 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
     # RETURN THE BUILD TIME
     build_time = round(time.time() - start_time, 2)
     
+    # RETURN UNIQUE VESSELS
+    unique_vessels = final_df.MMSI.nunique()
+    
     # RETURN THE DF SIZE FOR AUTO CLEANING IF > 1,500 rows
     row_count = final_df.shape[0]
+    displayed_row_count = row_count
     if row_count >= 1500:
         returned_rows_count = row_count
     else:
         returned_rows_count = no_update
     
-    return markers + lines, build_time, returned_rows_count, unique_status_categories
+    return markers + lines, build_time, returned_rows_count, displayed_row_count, unique_vessels, unique_status_categories
 
 
 # JSON AUTO CLEAN TO DO !

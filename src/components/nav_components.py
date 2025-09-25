@@ -42,7 +42,7 @@ def filter_offcanvas():
                        html.H6("Navigational Status", className='filter-sub-header'),
                        dcc.Checklist(
                            id="select-all-status",
-                           options=[{"label": html.Span("Select All", style={"padding-left": "10px", 
+                           options=[{"label": html.Span("Hide All", style={"padding-left": "10px", 
                                                                              "font-size": 14, 
                                                                              "margin-top":"5px", 
                                                                              "margin-bottom":"5px",
@@ -62,7 +62,7 @@ def filter_offcanvas():
                        html.H6("Vessel Category", className='filter-sub-header'),
                        dcc.Checklist(
                            id="select-all-category",
-                           options=[{"label": html.Span("Select All", style={"padding-left": "10px", 
+                           options=[{"label": html.Span("Hide All", style={"padding-left": "10px", 
                                                                              "font-size": 14, 
                                                                              "margin-top":"5px", 
                                                                              "margin-bottom":"5px",
@@ -112,3 +112,32 @@ def tooltips_offcanvas():
             )    
         ], className='tooltips-offcanvas-div'
     )
+    
+def footer():
+    return html.Div(
+        id='footer-div',
+        children=
+        [
+            html.Span("Refresh the page to select a new area", className="footer-info"),
+            html.Div(
+                id='footer-counts',
+                children=[],
+                className='footer-counts'
+            ),
+            html.Div(
+                id='href-div',
+                children=[
+                    html.Div([
+                        html.Span("WebSocket provided by", className="footer-href1-info"),
+                        html.A("aisstream.io", href='https://aisstream.io/', target="_blank", className="footer-href1"),
+                        ], className="aisstream-href-div"
+                    ),
+                    html.Div([
+                        html.Span("Source code available", className="footer-href2-info"),
+                        html.A("here", href="https://github.com/Lucas-PE/maritime-traffic-app", target="_blank", className="footer-href2")
+                        ], className="github-href-div"
+                    )
+                    ], className='href-div'
+                )
+            ], className='footer-div'
+        )

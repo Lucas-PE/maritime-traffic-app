@@ -1,15 +1,15 @@
-Voir à partir de cb de lignes dans ais_position, le temps de build le dataframe dépasse la seconde ! --> Servira pour determiner les entrées à supprimer !
-
 1) --- DONE --- Interdire une trop grosse zone au début
 2) --- DONE --- Auto clean_up du ais_position toutes les x lines
 3) --- DONE --- Navigation header avec : -- dropdown base_map -- + -- button pour recenter la vue --
 4) --- DONE --- DYNAMIC LEGEND ! --> Put legend into an Offcanvas (DBC) AT RIGHT
-5) CLICK ON VESSEL ! --> Offcanvas (DBC) AT LEFT with vessel information / category (size --> comparaison ? ouiiii) ... + all known positions ?
-6) AJOUTER DES COMPTEURS POUR LE COTE DYNAMIQUE !!! Nb de vessels displayed --> Dans le footer : Unique vessels, total points, "reload to start new ..."
-7) STYLES !!! (comme le premier modal)
-8) Conversion vitesse en km/h ?
+5) --- DONE --- CLICK ON VESSEL ! --> Offcanvas (DBC) AT LEFT with vessel information / category (size --> comparaison ? ouiiii) ... + all known positions ?
+6) --- DONE --- AJOUTER DES COMPTEURS POUR LE COTE DYNAMIQUE !!! Nb de vessels displayed --> Dans le footer : Unique vessels, total points, "reload to start new ..."
+7) --- DONE --- STYLES !!! (comme le premier modal)
+8) --- DONE --- Conversion vitesse en km/h ?
 9) Penser aux variables d'environnement pour le déploiement
-10) Do not forget all attributions --> In a footer
+10) --- DONE --- Do not forget all attributions --> In a footer
 
-Revoir les couleurs des vessels avec le :root
-need to disable square selection on ok-button
++ REVOIR LE requirements.txt
++ Ne pas commit le pyc !
++ Minimum readme
++ DEPLOYYYY
