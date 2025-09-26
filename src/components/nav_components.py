@@ -118,7 +118,13 @@ def footer():
         id='footer-div',
         children=
         [
-            html.Span("Refresh the page to select a new area", className="footer-info"),
+            html.Div(
+                id = 'footer-left',
+                children =[
+                    html.Span("v1.0.0", className="footer-version"),
+                    html.Span("Refresh the page to select a new area", className="footer-info"),
+                    ], className='footer-left'
+                ),
             html.Div(
                 id='footer-counts',
                 children=[],

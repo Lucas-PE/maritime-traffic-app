@@ -10,6 +10,6 @@
 10) --- DONE --- Do not forget all attributions --> In a footer
 
 + REVOIR LE requirements.txt
-+ Ne pas commit le pyc !
++ Ne pas commit les pyc !
 + Minimum readme
 + DEPLOYYYY

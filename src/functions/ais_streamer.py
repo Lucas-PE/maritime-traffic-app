@@ -6,8 +6,8 @@ import threading
 import time
 
 stop_event = threading.Event()
-uri = "wss://stream.aisstream.io/v0/stream"
-API_KEY = '124f9a783325c6d6ec7402febf532fca3d6eb34d'
+uri = os.getenv("URI")
+API_KEY = os.getenv("API_KEY")
 POSITION_JSON_PATH = "src/data/raw/ais_position.json"
 STATIC_JSON_PATH = "src/data/raw/ais_static.json"
 
