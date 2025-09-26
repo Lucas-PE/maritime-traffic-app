@@ -8,8 +8,8 @@ import time
 stop_event = threading.Event()
 uri = os.getenv("URI")
 API_KEY = os.getenv("API_KEY")
-POSITION_JSON_PATH = "src/data/raw/ais_position.json"
-STATIC_JSON_PATH = "src/data/raw/ais_static.json"
+POSITION_JSON_PATH = "data/raw/ais_position.json"
+STATIC_JSON_PATH = "data/raw/ais_static.json"
 
 # Stop websocket
 def stop_websockets():

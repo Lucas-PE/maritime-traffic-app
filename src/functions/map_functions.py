@@ -20,8 +20,8 @@ import os
 import json
 from filelock import FileLock
 
-ASSET_ICON_DIR = "src/assets/colored_vessels_png"
-DEFAULT_ICON = "src/assets/colored_vessels_png/Unknown_Not defined_(default).png"
+ASSET_ICON_DIR = "assets/colored_vessels_png"
+DEFAULT_ICON = "assets/colored_vessels_png/Unknown_Not defined_(default).png"
 
 
 # SELECT LEAFLET "DRAW RECTANGLE" ON INITIAL SELECT AND REDRAW
@@ -122,8 +122,8 @@ def update_map(bbox, center_button):
             )
         
         # WEBSOCKET PROCESS :
-        POSITION_JSON_PATH = "src/data/raw/ais_position.json"
-        STATIC_JSON_PATH = "src/data/raw/ais_static.json"
+        POSITION_JSON_PATH = "data/raw/ais_position.json"
+        STATIC_JSON_PATH = "data/raw/ais_static.json"
         
         async def run_websockets_loop():
             await asyncio.gather(
@@ -174,7 +174,7 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
     
     # 1. Fetch the data
     try:
-        df_position = pd.read_json("src/data/raw/ais_position.json")
+        df_position = pd.read_json("data/raw/ais_position.json")
     except:
         return no_update
 
@@ -182,12 +182,12 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
         df_position = pd.DataFrame(columns=['timestamp', 'MMSI', 'ShipName', 'lat', 'lon', 'COG',
                                             'NavigationalStatus', 'RateOfTurn', 'SOG', 'Spare', 'UserID', "Heading"])
         
-    df_static = pd.read_json("src/data/raw/ais_static.json")
+    df_static = pd.read_json("data/raw/ais_static.json")
     if df_static.empty:
         df_static = pd.DataFrame(columns=['timestamp', 'MMSI', 'Destination', 'Dimension', 'Eta', 'Type'])
     
-    df_types = pd.read_csv("src/data/raw/ais_ShipTypes.csv", sep=";")
-    df_status = pd.read_csv("src/data/raw/ais_NavigationStatus.csv", sep=";")
+    df_types = pd.read_csv("data/raw/ais_ShipTypes.csv", sep=";")
+    df_status = pd.read_csv("data/raw/ais_NavigationStatus.csv", sep=";")
 
     df_static['timestamp'] = pd.to_datetime(df_static['timestamp'].str.replace('UTC', ''), format='ISO8601').dt.floor('s')
     df_position['timestamp'] = pd.to_datetime(df_position['timestamp'].str.replace('UTC', ''), format='ISO8601').dt.floor('s')
@@ -317,8 +317,8 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
 )
 def json_auto_clean(df_row_count):
 
-    json_path = "src/data/raw/ais_position.json"
-    lock_path = "src/data/raw/ais_position.json.lock"
+    json_path = "data/raw/ais_position.json"
+    lock_path = "data/raw/ais_position.json.lock"
     tmp_path = json_path + ".tmp"
 
     with FileLock(lock_path):

@@ -252,16 +252,16 @@ def display_clicked_vessel(clicked_id):
         
         # GET ALL ENTRIES FOR THE CLICKED MMSI
         try:
-            df_position = pd.read_json("src/data/raw/ais_position.json")
+            df_position = pd.read_json("data/raw/ais_position.json")
         except:
             return no_update
         
-        df_types = pd.read_csv("src/data/raw/ais_ShipTypes.csv", sep=";")
-        df_status = pd.read_csv("src/data/raw/ais_NavigationStatus.csv", sep=";")
+        df_types = pd.read_csv("data/raw/ais_ShipTypes.csv", sep=";")
+        df_status = pd.read_csv("data/raw/ais_NavigationStatus.csv", sep=";")
         
         clicked_df_position = df_position[df_position["MMSI"] == MMSI]
 
-        df_static = pd.read_json("src/data/raw/ais_static.json")
+        df_static = pd.read_json("data/raw/ais_static.json")
         if df_static.empty:
             df_static = pd.DataFrame(columns=['timestamp', 'MMSI', 'Destination', 'Dimension', 'Eta', 'Type'])
         clicked_df_static = df_static[df_static["MMSI"] == MMSI]
