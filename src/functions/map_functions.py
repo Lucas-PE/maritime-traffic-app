@@ -320,70 +320,72 @@ def json_auto_clean(df_row_count):
     json_path = "data/raw/ais_position.json"
     lock_path = "data/raw/ais_position.json.lock"
     tmp_path = json_path + ".tmp"
+    
+    if df_row_count != None:
+        
+        with FileLock(lock_path):
 
-    with FileLock(lock_path):
+            try:
+                # Load JSON
+                with open(json_path, "r") as f:
+                    records = json.load(f)
 
-        try:
-            # Load JSON
-            with open(json_path, "r") as f:
-                records = json.load(f)
+                if not isinstance(records, list) or len(records) == 0:
+                    no_update
 
-            if not isinstance(records, list) or len(records) == 0:
+                df = pd.DataFrame(records)
+
+                # Ensure required columns exist
+                required_cols = {"timestamp", "MMSI", "ShipName"}
+                if not required_cols.issubset(df.columns):
+                    no_update
+
+                # Keep original timestamp
+                df['timestamp_orig'] = df['timestamp']
+
+                # Convert for sorting/cleaning (remove 'UTC')
+                df["timestamp"] = pd.to_datetime(
+                    df['timestamp'].str.replace('UTC','').str.strip(),
+                    errors='coerce'
+                ).dt.floor('s')
+
+                df.dropna(subset=['timestamp'], inplace=True)
+                if df.empty:
+                    no_update
+
+                # Sort by group and timestamp
+                df.sort_values(['MMSI', 'ShipName', 'timestamp'], inplace=True)
+
+                # Drop oldest row per group if group has more than 1 row
+                cleaned_df = (
+                    df.groupby(['MMSI', 'ShipName'], group_keys=False)
+                    .apply(lambda g: g.iloc[1:] if len(g) > 1 else g)
+                    .reset_index(drop=True)
+                )
+
+                # Restore original timestamp strings
+                cleaned_df['timestamp'] = cleaned_df['timestamp_orig']
+                cleaned_df = cleaned_df.drop(columns=['timestamp_orig'])
+
+                print(f"Cleaned JSON → {cleaned_df.shape[0]} rows remaining")
+
+                # --- Atomic write ---
+                with open(tmp_path, "w") as f:
+                    json.dump(cleaned_df.to_dict(orient='records'), f, indent=2)
+                    f.flush()
+                    os.fsync(f.fileno())
+
+                # Replace original JSON with temp file
+                os.replace(tmp_path, json_path)
+
+            except (json.JSONDecodeError, FileNotFoundError) as e:
                 no_update
-
-            df = pd.DataFrame(records)
-
-            # Ensure required columns exist
-            required_cols = {"timestamp", "MMSI", "ShipName"}
-            if not required_cols.issubset(df.columns):
+            except Exception as e:
                 no_update
-
-            # Keep original timestamp
-            df['timestamp_orig'] = df['timestamp']
-
-            # Convert for sorting/cleaning (remove 'UTC')
-            df["timestamp"] = pd.to_datetime(
-                df['timestamp'].str.replace('UTC','').str.strip(),
-                errors='coerce'
-            ).dt.floor('s')
-
-            df.dropna(subset=['timestamp'], inplace=True)
-            if df.empty:
-                no_update
-
-            # Sort by group and timestamp
-            df.sort_values(['MMSI', 'ShipName', 'timestamp'], inplace=True)
-
-            # Drop oldest row per group if group has more than 1 row
-            cleaned_df = (
-                df.groupby(['MMSI', 'ShipName'], group_keys=False)
-                  .apply(lambda g: g.iloc[1:] if len(g) > 1 else g)
-                  .reset_index(drop=True)
-            )
-
-            # Restore original timestamp strings
-            cleaned_df['timestamp'] = cleaned_df['timestamp_orig']
-            cleaned_df = cleaned_df.drop(columns=['timestamp_orig'])
-
-            print(f"Cleaned JSON → {cleaned_df.shape[0]} rows remaining")
-
-            # --- Atomic write ---
-            with open(tmp_path, "w") as f:
-                json.dump(cleaned_df.to_dict(orient='records'), f, indent=2)
-                f.flush()
-                os.fsync(f.fileno())
-
-            # Replace original JSON with temp file
-            os.replace(tmp_path, json_path)
-
-        except (json.JSONDecodeError, FileNotFoundError) as e:
-            no_update
-        except Exception as e:
-            no_update
-        finally:
-            # Ensure tmp file is removed if it still exists
-            if os.path.exists(tmp_path):
-                try:
-                    os.remove(tmp_path)
-                except Exception:
-                    pass
+            finally:
+                # Ensure tmp file is removed if it still exists
+                if os.path.exists(tmp_path):
+                    try:
+                        os.remove(tmp_path)
+                    except Exception:
+                        pass
