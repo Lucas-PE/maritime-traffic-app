@@ -305,7 +305,7 @@ def update_ship_layer(n_intervals, filtered_status, filtered_category):
     if row_count >= 1500:
         returned_rows_count = row_count
     else:
-        returned_rows_count = no_update
+        returned_rows_count = None
     
     return markers + lines, build_time, returned_rows_count, displayed_row_count, unique_vessels, unique_status_categories
 
